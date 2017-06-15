@@ -1,4 +1,4 @@
-import sys
+import sys, sqlite3
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -9,14 +9,34 @@ class GuessNumber(QMainWindow):
         super().__init__()
         self.name = name
         self.try_times = 0
-        self.initUI()
-
-    def initUI(self):
         self.level = 4
         self.answer = num_generator(self.level)
         self.time_count = 0
+        self.records = read_db(self.name)
+
+        self.initUI()
+
+    def initUI(self):
         self.timer = QTimer()
         self.timer.timeout.connect(self.add_time)
+
+        exitAction = QAction('&Exit', self)
+        exitAction.setShortcut('Ctrl+Q')
+        exitAction.setStatusTip('Exit application')
+        exitAction.triggered.connect(self.close)
+
+        recordsAction = QAction('&Records', self)
+        recordsAction.setShortcut('Ctrl+R')
+        recordsAction.setStatusTip('Show your records')
+        recordsAction.triggered.connect(self.show_records)
+
+        self.statusBar()
+        menubar = self.menuBar()
+        fileMenu = menubar.addMenu('&File')
+        fileMenu.addAction(recordsAction)
+        fileMenu.addAction(exitAction)
+        # 用来创建窗口内的菜单栏
+        # menubar.setNativeMenuBar(False)
 
         widget = QWidget()
         lbl_level = QLabel('Level: ')
@@ -27,7 +47,7 @@ class GuessNumber(QMainWindow):
         self.comb_level.activated[str].connect(self.level_choosed)
         self.lcd_time = QLCDNumber()
         self.lcd_time.setDigitCount(7)
-        self.lcd_time.colorCount()
+        self.lcd_time.setSegmentStyle(QLCDNumber.Flat)
         self.lbl_tips = QLabel('Now enter 4 different numbers between 0~9')
 
         self.qle_nums = QLineEdit()
@@ -45,7 +65,7 @@ class GuessNumber(QMainWindow):
         grid.addWidget(self.lcd_time, 0, 2)
         grid.addWidget(self.lbl_tips, 1, 0, 1, 3)
         grid.addWidget(self.qle_nums, 2, 0)
-        grid.addWidget(btn_check, 2, 1)
+        grid.addWidget(btn_check, 2, 2)
         grid.addWidget(self.lbl_result, 3, 0, 5, 3)
 
         widget.setLayout(grid)
@@ -75,7 +95,7 @@ class GuessNumber(QMainWindow):
         if self.try_times == 0:
             self.lbl_result.setText('')
             self.timer.start(1)
-        # self.statusBar().showMessage(self.answer)
+        self.statusBar().showMessage(self.answer)
         input_num = self.qle_nums.text()
         self.qle_nums.clear()
         result = check_answer(input_num, self.answer, self.level)
@@ -90,7 +110,14 @@ class GuessNumber(QMainWindow):
                     times_remain = 10 - self.try_times
                     message = 'times remain: ' + str(times_remain) + '. ' + result['message']
             else:
-                message = input_num + ', congratulations, you got it!'
+                message = input_num + ', congratulations, you got it in ' + str(self.time_count/1000) + ' seconds!'
+                self.records = read_db(self.name)
+                if self.level in self.records.keys():
+                    if self.time_count < self.records[self.level]['time'] or self.try_times < self.records[self.level]['steps']:
+                        write_db(self.name, self.level, self.try_times, self.time_count/1000, 'update')
+                        message += '\nNew records!'
+                else:
+                    write_db(self.name, self.level, self.try_times, self.time_count/1000)
                 self.reset(False)
         else:
             message = result['message']
@@ -104,11 +131,19 @@ class GuessNumber(QMainWindow):
         self.try_times = 0
         if clear_result:
             self.lbl_result.setText('')
+        self.timer.stop()
+        self.time_count = 0
+        self.lcd_time.display(0.0)
 
     def add_time(self):
         self.time_count += 1
         self.lcd_time.display('%.3f'%(self.time_count/1000))
 
+    def show_records(self):
+        text = ''
+        for level in self.records.keys():
+            text = text + 'level ' + str(level-2) + ': ' + ", steps: " + str(self.records[level]['steps']) + ', time: ' + str(self.records[level]['time'])
+        self.lbl_result.setText(text)
 
 
 def num_generator(level):
@@ -149,9 +184,36 @@ def check_answer(in_num, answer, level):
         message = 'your answer: ' + in_num + ', result: A' + str(a_cnt) + 'B' + str(b_cnt)
     return {'validate': validate, 'message': message}
 
+def read_db(name):
+    conn = sqlite3.connect('data.db')
+    cursor = conn.cursor()
+    cursor.execute('select * from number_guess where name=?', (name, ))
+    result = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    if not result:
+        return {}
+    records = {}
+    for record in result:
+        level = record[2]
+        steps = record[3]
+        time = record[4]
+        records[level] = {'steps': steps, 'time': time}
+    return records
+
+def write_db(name, level, steps, time, update_type='insert'):
+    conn = sqlite3.connect('data.db')
+    cursor = conn.cursor()
+    if update_type == 'insert':
+        cursor.execute('insert into number_guess (name, level, steps, time) VALUES ("%s", %d, %d, %f)'%(name, level, steps, time))
+    else:
+        cursor.execute('update number_guess set steps=?, time=? where (name=? and level=?)', (steps, time, name, level, ))
+    conn.commit()
+    cursor.close()
+    conn.close()
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = GuessNumber('jarrod')
-    sys.exit(app.exec_())
+    app.exec_()

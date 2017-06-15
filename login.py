@@ -1,11 +1,14 @@
-import sys
-from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QApplication, QGridLayout, QPushButton, QMainWindow, QDesktopWidget
-from PyQt5 import QtCore
+import sys, sqlite3
+from PyQt5.QtWidgets import *
+from PyQt5 import QtCore, QtGui
+import guess_number
+
 
 class LogIn(QMainWindow):
     def __init__(self):
         super().__init__()
         self.initui()
+        self.loged_user = 'guest'
 
     def initui(self):
         self.widget = QWidget()
@@ -54,24 +57,37 @@ class LogIn(QMainWindow):
         else:
             if name == '':
                 self.statusBar().showMessage('Please enter your name')
-            elif name == 'jarrod' and pwd == 'jarrod':
-                self.close()
-            elif name == 'new':
-                self.grid.addWidget(self.lbl_pwd2, 3, 0)
-                self.grid.addWidget(self.qle_pwd2, 3, 1, 1, 4)
-                self.statusBar().showMessage('New account, please reenter your password!')
-                pwd2 = self.qle_pwd2.text()
-                if pwd != pwd2:
-                    self.statusBar().showMessage('two different passwords, please check!')
-                elif pwd2 == '':
-                    self.statusBar().showMessage('New account, please reenter your password!')
-                    self.qle_pwd2.setFocus()
-                    self.login_button.setText('Register')
-                else:
-                    self.statusBar().showMessage('please remember your password!')
-                    self.close()
             else:
-                self.statusBar().showMessage('password not right!')
+                key = read_db(name)
+                if key:
+                    pwd = md5(pwd)
+                    if key == pwd:
+                        self.loged_user = name
+                        self.close()
+                    else:
+                        self.statusBar().showMessage('wrong password, please try again!')
+                else:
+                    self.grid.addWidget(self.lbl_pwd2, 3, 0)
+                    self.grid.addWidget(self.qle_pwd2, 3, 1, 1, 4)
+                    self.statusBar().showMessage('New account, please reenter your password!')
+                    self.login_button.setText('Register')
+                    # self.qle_pwd2.setFocus()
+                    pwd2 = self.qle_pwd2.text()
+                    if pwd == '':
+                        self.statusBar().showMessage('Please enter your password')
+                    else:
+                        if pwd != pwd2:
+                            self.statusBar().showMessage('two different passwords, please check!')
+                        else:
+                            pwd = md5(pwd)
+                            write_db(name, pwd)
+                            self.statusBar().showMessage('please remember your password!')
+                            self.loged_user = name
+                            self.close()
+        app_pick = ChooseGame(self.loged_user)
+        app_pick.show()
+        # self.gn = guess_number.GuessNumber(name)
+        # self.gn.show()
 
     def center(self):
         screen = QDesktopWidget().screenGeometry()
@@ -79,15 +95,91 @@ class LogIn(QMainWindow):
         self.move((screen.width()-size.width())/2,
             (screen.height()-size.height())/2)
 
-    # 想按回车直接开始验证，这个函数没用，不知道为啥
-    def keyPressEvent(self, QKeyEvent):
-        key = QKeyEvent.key()
-        if key == QtCore.Qt.Key_Enter:
-            print('yes')
-            self.login_button.clicked()
+    # def closeEvent(self, a0: QtGui.QCloseEvent):
+        # loged_user = self.loged_user
+
+
+class ChooseGame(QMainWindow):
+    def __init__(self, name):
+        super().__init__()
+        self.name = name
+        self.initUI()
+
+    def initUI(self):
+        widget = QWidget()
+        btn_gn = PicButton(QtGui.QPixmap('pics/guess_number.png'), 'guess_number', self)
+        btn_ddz = PicButton(QtGui.QPixmap('pics/doudizhu.png'), 'doudizhu', self)
+        grid = QGridLayout()
+
+        grid.addWidget(btn_gn, 0, 0)
+        grid.addWidget(QLabel('Number Guess'), 1, 0)
+        grid.addWidget(btn_ddz, 0, 1)
+        grid.addWidget(QLabel('Dou Di Zhu'), 1, 1)
+        widget.setLayout(grid)
+        self.setCentralWidget(widget)
+        self.setWindowTitle('Choose Game --' + self.name)
+        self.show()
+        self.center()
+
+    def center(self):
+        screen = QDesktopWidget().screenGeometry()
+        size = self.geometry()
+        self.move((screen.width()-size.width())/2,
+            (screen.height()-size.height())/2)
+
+
+class PicButton(QAbstractButton):
+    def __init__(self, pixmap, app, parent_widget=None,):
+        super(PicButton, self).__init__(parent_widget)
+        self.pixmap = pixmap
+        self.app = app
+        self.parent_widget = parent_widget
+        self.clicked.connect(self.choose_app)
+
+    def paintEvent(self, event):
+        painter = QtGui.QPainter(self)
+        painter.drawPixmap(event.rect(), self.pixmap)
+
+    def sizeHint(self):
+        return self.pixmap.size()
+
+    def choose_app(self):
+        if self.app == 'guess_number':
+            self.parent_widget.close()
+            self.gn = guess_number.GuessNumber(self.parent_widget.name)
+            self.gn.show()
+
+
+def read_db(name):
+    conn = sqlite3.connect('data.db')
+    cursor = conn.cursor()
+    cursor.execute('select key from users where name=?', (name, ))
+    result = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    if not result:
+        return ''
+    key = result[0][0]
+    return key
+
+def write_db(name, key):
+    conn = sqlite3.connect('data.db')
+    cursor = conn.cursor()
+    cursor.execute('insert into users (name, key) VALUES ("%s", "%s")'%(name, key))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+def md5(key):
+    import hashlib
+    m = hashlib.md5()
+    m.update(key.encode('utf-8'))
+    return m.hexdigest()
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = LogIn()
-    sys.exit(app.exec_())
+    # ex = ChooseGame('jarrod')
+    #sys.exit(app.exec_())
+    app.exec_()
