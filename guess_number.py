@@ -95,7 +95,7 @@ class GuessNumber(QMainWindow):
         if self.try_times == 0:
             self.lbl_result.setText('')
             self.timer.start(1)
-        self.statusBar().showMessage(self.answer)
+        # self.statusBar().showMessage(self.answer)
         input_num = self.qle_nums.text()
         self.qle_nums.clear()
         result = check_answer(input_num, self.answer, self.level)

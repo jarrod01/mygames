@@ -141,7 +141,8 @@ class PicButton(QAbstractButton):
         painter.drawPixmap(event.rect(), self.pixmap)
 
     def sizeHint(self):
-        return self.pixmap.size()
+        tmp = self.pixmap.size()
+        return QtCore.QSize(100, 100)
 
     def choose_app(self):
         if self.app == 'guess_number':

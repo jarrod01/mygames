@@ -22,7 +22,7 @@ def pattern_spot(in_cards):
     patterns = {'two_jokers': 0, 'fours': [], 'threes': [], 'twos': [], 'ones': [], 'four_two_ones': [], 'four_two_twos': [],
                 'three_twos': [], 'three_ones': [], 'straights': [], 'straights_double': [],
                 'straights_triple': [], 'st_with_twos': [], 'st_with_ones': [], 'st3_with_twos': [], 'st3_with_ones': [],
-                'st4_with_twos': [], 'st4_with_ones': []} #字典的底层value都是牌的序号格式为{牌: 牌的序号}
+                'st4_with_twos': [], 'st4_with_ones': []} #字典的底层value都是牌的数字格式为{牌: 牌的数字}
     nums = [int(i/10) for i in in_cards]
     if 14 in nums and 15 in nums:
         patterns['two_jokers'] = 1
