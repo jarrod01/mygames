@@ -36,7 +36,7 @@ class GuessNumber(QMainWindow):
         fileMenu.addAction(recordsAction)
         fileMenu.addAction(exitAction)
         # 用来创建窗口内的菜单栏
-        # menubar.setNativeMenuBar(False)
+        menubar.setNativeMenuBar(False)
 
         widget = QWidget()
         lbl_level = QLabel('Level: ')

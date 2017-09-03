@@ -2,11 +2,14 @@ from random import randint
 import json, time, socket, threading, struct
 
 def poker_distribute():
-    pokers = []
-    for i in range(1, 14):
-        for j in range(1, 5):
-            pokers.append(i*10+j) #以最后一位代表花色，前一位或两位代表数字
-    pokers += [141, 151]
+    # pokers = []
+    # for i in range(1, 14):
+    #     for j in range(1, 5):
+    #         pokers.append(i*10+j) #以最后一位代表花色，前一位或两位代表数字
+    # pokers += [141, 151]
+    pokers = [11, 12, 13, 14, 21, 22, 23, 24, 31, 32, 33, 34, 41, 42, 43, 44, 51, 52, 53, 54, 61, 62, 63, 64,
+              71, 72, 73, 74, 81, 82, 83, 84, 91, 92, 93, 94, 101, 102, 103, 104, 111, 112, 113, 114,
+              121, 122, 123, 124, 131, 132, 133, 134, 141, 151]
     player = {0: [], 1: [], 2: [], 3: []}
     for i in range(0, 51):
         t = randint(0, len(pokers)-1)
