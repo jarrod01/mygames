@@ -977,7 +977,7 @@ def detect_user():
                 addr, port = s2.getsockname()
                 s2.close()
                 correct = True
-                addr = '127.0.0.1'
+                # addr = '127.0.0.1'
                 num_ip = socket.ntohl(struct.unpack("I", socket.inet_aton(addr))[0])
                 print('开房成功，您的房间号是：' + str(num_ip) +', 快把房间号告诉玩伴吧')
                 s.bind((addr, 9125))

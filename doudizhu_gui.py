@@ -6,34 +6,62 @@ import sys, os, doudizhu
 class DouDiZhu(QMainWindow):
     def __init__(self, n, sockets=(0, 0, 0), host='jarrod'):
         super().__init__()
-        self.cards = {}
+        self.cards = [[], [], [], []]
         self.out_cards = [[], [], []]
         self.patterns = []
-        self.scores = []
+        self.scores = [0, 0, 0]
         ai_names = ['Harry', 'Ron', 'Hermione', 'Albus', 'Severus', 'Minerva', 'Hagrid', 'Lupin', 'Moody', 'Horace',
                     'Filius', 'Dom', 'Brian', 'Mia', 'Letty']
         self.names = [host, ai_names[0], ai_names[1]]
-        self.play()
         self.InitUI()
 
 
     def InitUI(self):
         screen = QDesktopWidget().screenGeometry()
-        self.w = screen.width()
-        self.h = screen.height()
         self.statusBar().showMessage('Ready to play!')
+
+        menubar = self.menuBar()
+
+        exitAction = QAction('&Exit', self)
+        exitAction.setShortcut('Ctrl+Q')
+        exitAction.setStatusTip('Exit application')
+        exitAction.triggered.connect(self.close)
+
+        recordsAction = QAction('&Records', self)
+        recordsAction.setShortcut('Ctrl+R')
+        recordsAction.setStatusTip('Show your records')
+        recordsAction.triggered.connect(self.get_player_score)
+
+        fileMenu = menubar.addMenu('&File')
+        fileMenu.addAction(recordsAction)
+        fileMenu.addAction(exitAction)
+
+        hostAction = QAction('Create Room', self)
+        hostAction.setStatusTip('Create a room and tell other players the room number!')
+        hostAction.triggered.connect(self.creat_room)
+
+        joinAction = QAction('Join Room', self)
+        joinAction.setStatusTip('Got a room number and join a game!')
+        joinAction.triggered.connect(self.join_room)
+
+        multiplayerMenu = menubar.addMenu('&Multiplayer')
+        multiplayerMenu.addAction(hostAction)
+        multiplayerMenu.addAction(joinAction)
+        # 用来创建窗口内的菜单栏
+        menubar.setNativeMenuBar(False)
+
 
         self.widget = QWidget()
         avatar_one = self.scaled_pixmap('pics/doudizhu.png')
         avatar_two = self.scaled_pixmap('pics/guess_number.png')
         avatar_three = self.scaled_pixmap('pics/doudizhu.png')
-        pix_avatars = [avatar_one, avatar_two, avatar_three]
+        self.pix_avatars = [avatar_one, avatar_two, avatar_three]
         avatars = []
         lbl_names = []
         for i in range(3):
             lbl_names.append(QLabel(self.names[i]))
             lbl_tmp = QLabel()
-            lbl_tmp.setPixmap(pix_avatars[i])
+            lbl_tmp.setPixmap(self.pix_avatars[i])
             avatars.append(lbl_tmp)
         lbl_top = QLabel('This is for messages!')
         cards_area_one = PukeOne(self.cards[0], False, 1, self)
@@ -72,8 +100,9 @@ class DouDiZhu(QMainWindow):
         self.widget.setLayout(grid)
 
         self.setCentralWidget(self.widget)
-        self.setGeometry(0, 0, self.w, self.h)
+        self.setGeometry(0, 0, screen.width(), screen.height())
         self.setWindowTitle('Doudizhu --' + self.names[0])
+        self.setWindowIcon(QIcon(os.path.join('pics', 'doudizhu.png')))
         self.show()
 
     # 将头像缩小至对应区域的大小，同时保持比例
@@ -81,8 +110,8 @@ class DouDiZhu(QMainWindow):
         avatar = QPixmap(pic)
         height = 0
         width = 0
-        max_width = 2 * self.w/15
-        max_height = 2 * self.h/15
+        max_width = 2 * self.width()/15
+        max_height = 2 * self.height()/15
         avatar_width = avatar.width()
         avatar_heigth = avatar.height()
         if max_width/max_height > avatar_width/avatar_heigth:
@@ -93,8 +122,20 @@ class DouDiZhu(QMainWindow):
             height = int(avatar_heigth * avatar_width/max_width)
         return avatar.scaled(width, height, aspectRatioMode=Qt.KeepAspectRatio)
 
-    def play(self):
-        self.cards = doudizhu.poker_distribute()
+    def show_records(self):
+        pass
+
+    def get_player_score(self):
+        jiaofen = JiaoFenWindow(parent=self)
+        if jiaofen.exec_():
+            score = jiaofen.get_score()
+        jiaofen.destroy()
+
+    def creat_room(self):
+        pass
+
+    def join_room(self):
+        pass
 
 
 # 底部横向的扑克排列，display_only代表不能点击，cards为牌的数字
@@ -240,6 +281,33 @@ class PukeTwo(QFrame):
             tmp_card_info = {'index': i, 'pix': pix_card, 'x': cur_x, 'y': cur_y}
             self.card_infos.append(tmp_card_info)
             painter.drawPixmap(cur_x, cur_y, pix_card)
+
+
+class JiaoFenWindow(QDialog):
+    def __init__(self, parent=None):
+        super().__init__()
+        self.score = 0
+
+        self.InitUI()
+
+    def InitUI(self):
+        hbox = QHBoxLayout()
+        for i in range(3):
+            button = QPushButton(str(i+1) + '分')
+            button.clicked.connect(self.button_clicked)
+            hbox.addWidget(button)
+        self.setLayout(hbox)
+        self.setWindowTitle('请叫分：')
+        self.show()
+
+    def button_clicked(self):
+        sender = self.sender()
+        text = sender.text()
+        self.score = int(text[:1])
+        self.close()
+
+    def get_score(self):
+        return self.score
 
 
 def find_card_image(num):
