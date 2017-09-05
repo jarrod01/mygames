@@ -1,5 +1,6 @@
 from random import randint
-import json, time, socket, threading, struct
+from PyQt5.QtWidgets import QApplication
+import json, time, socket, threading, struct, doudizhu_gui, sys
 
 def poker_distribute():
     # pokers = []
@@ -1099,6 +1100,222 @@ def detect_user():
 
         s.close()
 
+def play_gui(n, sockets=(0, 0, 0), host='jarrod'):
+    players_cards = poker_distribute()
+    patterns = []
+    scores = []
+    names = [host, 'fds', 'fdsa']
+    ai_names = ['Harry', 'Ron', 'Hermione', 'Albus', 'Severus', 'Minerva', 'Hagrid', 'Lupin', 'Moody', 'Horace',
+                'Filius', 'Dom', 'Brian', 'Mia', 'Letty']
+
+    # 判断是服务器还是客户机
+    if n == 0:
+        person = [0, 0, 0]
+    elif n == 1:
+        person = [1, 0, 0]  # 0代表机器，1代表主机，2代表客户机
+    elif n == 2:
+        person = [1, 2, 0]
+    else:
+        person = [1, 2, 2]
+
+    # 获取名字：
+    for i in range(3):
+        if person[i] == 2:
+            sockets[i].send(b'name')
+            names[i] = sockets[i].recv(1024).decode('utf-8')
+            if names[i] == 'null':
+                names[i] = str(i+1) + '号玩家'
+            data = players_cards[i]
+            for d in data:
+                send_data(d, sockets[i], names[i])
+
+    app = QApplication(sys.argv)
+    game = doudizhu_gui.DouDiZhu(n)
+    game.card_distribute(players_cards)
+    for i in range(3):
+        game.set_player_name(names[i], i)
+    app.exec_()
+
+
+    # 开始叫分
+    for i in range(3):
+        patterns.append(pattern_spot(players_cards[i]))
+        if person[i] == 1:
+            game.lbl_top.setText('请叫分（1-3分）：')
+            # scores.append(game.jiaofen())
+            jiaofen = doudizhu_gui.JiaoFenWindow()
+            jiaofen.exec_()
+            scores.append(jiaofen.get_score())
+            jiaofen.destroy()
+            game.lbl_top.setText(str(scores[i]) + '分, 等待其他玩家叫分')
+            tmp = names[i] + '叫' + str(scores[i]) + '分！\n'
+            j = i + 1
+            while j < 3:
+                if person[j] == 2:
+                    send_data(tmp, sockets[j], names[j])
+                j += 1
+        elif person[i] == 2:
+            sockets[i].send(b'score')
+            tmp = sockets[i].recv(1024).decode('utf-8')
+            scores.append(int(tmp))
+            game.lbl_top.setText(names[i] + '叫' + str(scores[i]) + '分！')
+            data = names[i] + '叫' + str(scores[i]) + '分！\n'
+            if i == 1:
+                j = i + 1
+                if person[j] == 2:
+                    send_data(data, sockets[j], names[j])
+                    send_data('等待其他玩家叫分……', sockets[i], names[i])
+            if i == 2:
+                j = i - 1
+                if person[j] == 2:
+                    send_data(data, sockets[j], names[j])
+        else:
+            names[i] = ai_names[randint(0, len(ai_names) - 1)]
+            ai_names.remove(names[i])
+            if patterns[i]['two_jokers'] or patterns[i]['fours']:
+                scores.append(3)
+            elif 14 in patterns[i]['ones']:
+                scores.append(2)
+            else:
+                scores.append(1)
+            if person[i - 1] == 2:
+                data = names[i] + '叫' + str(scores[i]) + '分！\n'
+                print(data)
+                send_data(data, sockets[i - 1], names[i - 1])
+    dizhu = scores.index(max(scores))
+    players_cards[dizhu] += players_cards[3]
+    players_cards[dizhu].sort()
+    game.update_cards_area(game.cards_areas[dizhu], players_cards[dizhu])
+    time.sleep(1)
+    data = '底牌是：' + print_cards(players_cards[3]) + '\n' + '地主是: ' + names[dizhu]
+    game.lbl_top.setText(data)
+    for i in range(1, 3):
+        if person[i] == 2:
+            send_data(data, sockets[i], names[i])
+    finished = False
+    pass_me = [1, 1, 1]
+    i = dizhu
+    can_pass = False
+    while not finished:
+        i = i % 3
+        # 如果上家和下家都没有出牌，则将对比的last_result初始化
+        if pass_me[(i - 1) % 3] and pass_me[(i - 2) % 3]:
+            last_result = {'validate': True, 'nums': [0], 'result': 'null'}
+            can_pass = False
+        else:
+            can_pass = True
+        # 机器先算出来可不可以大过
+        out_nums = strategy(players_cards[i], last_result)
+        if not out_nums:
+            pass_me[i] = 1
+            if person[i] == 1:
+                # print(names[i] + '，您的牌是： ' + print_cards(players_cards[i]) + '\n没有牌能够大过上家， 3秒后下家出牌！')
+                game.lbl_top.setText('没有牌能够大过上家，下家出牌！')
+            elif person[i] == 2:
+                data = '没有牌能够大过上家，下家出牌！'
+                send_data(data, sockets[i], names[i])
+            else:
+                time.sleep(randint(1, 2))  # 机器假装思考
+        # '''暂时写到这里'''
+        else:
+            pass_me[i] = 0  # 先把pass设为0，如果用户选择pass再设为1
+            if person[i]:
+                data = names[i] + '，您的牌是： ' + print_cards(players_cards[i])
+                if person[i] == 1:
+                    print(data)
+                    s = input('请出牌，输入牌，以空格分割， 如果不出请按回车：')
+                if person[i] == 2:
+                    send_data(data, sockets[i], names[i])
+                    data = 'out_nums'
+                    sockets[i].send(data.encode('utf-8'))
+                    s = sockets[i].recv(1024).decode('utf-8')
+                s = s.strip()
+                s = s.split(' ')
+                try:
+                    out_nums = []
+                    for n in s:
+                        if n == 'J' or n == 'j' or n == '11':
+                            out_nums.append(9)
+                        elif n == 'Q' or n == 'q' or n == '12':
+                            out_nums.append(10)
+                        elif n == 'K' or n == 'k' or n == '13':
+                            out_nums.append(11)
+                        elif n == 'A' or n == 'a' or n == '1':
+                            out_nums.append(12)
+                        elif n == '2':
+                            out_nums.append(13)
+                        elif 'ii' not in n.lower() and 'joker' in n.lower() or n == '14' or 'xiaowang' in n.lower():
+                            out_nums.append(14)
+                        elif 'jokerii' in n.lower() or n == '15' or 'dawang' in n.lower():
+                            out_nums.append(15)
+                        elif n in ['3', '4', '5', '6', '7', '8', '9', '10']:
+                            out_nums.append(int(n) - 2)
+                    if not out_nums:
+                        pass_me[i] = 1
+                except:
+                    if person[i] == 1:
+                        print('输入有误，请重新输入：')
+                    elif person[i] == 2:
+                        data = '输入有误，请重新输入：'
+                        send_data(data, sockets[i], names[i])
+                    continue
+            else:
+                time.sleep(randint(1, 3))  # 机器假装思考
+        # 如果上家是地主，对家出牌的时候不压
+        if (i - 1) % 3 == dizhu and pass_me[dizhu] and not pass_me[(i - 2) % 3] and not person[i]:
+            out_nums = []
+            pass_me[i] = 1
+        # 如果上家是对家，且出了大牌，那么不压
+        if i != dizhu and (i - 1) % 3 != dizhu and last_result['nums'][0] in [13, 14] and not pass_me[
+                    (i - 1) % 3] and not person[i]:
+            out_nums = []
+            pass_me[i] = 1
+        out_cards = rearrange(players_cards[i], out_nums)
+        # 检测是否可以pass
+        if not can_pass and pass_me[i]:
+            if person[i] == 1:
+                print(names[i] + '，您不能跳过出牌！')
+            elif person[i] == 2:
+                data = names[i] + '，您不能跳过出牌！'
+                send_data(data, sockets[i], names[i])
+            continue
+        if pass_me[i]:
+            print(names[i] + '过！')
+            data = names[i] + '过！'
+            for j in range(0, 3):
+                if person[j] == 2:
+                    send_data(data, sockets[j], names[j])
+        else:
+            out_result = cards_validate(out_cards)
+            bigger = compare(last_result, out_result)
+            if bigger and out_result['validate']:
+                print(names[i] + '出的牌是' + print_cards(out_cards))
+                data = names[i] + '出的牌是' + print_cards(out_cards)
+                for j in range(0, 3):
+                    if person[j] == 2:
+                        send_data(data, sockets[j], names[j])
+                for card in out_cards:
+                    players_cards[i].remove(card)
+                last_result = out_result
+                if len(players_cards[i]) == 0:
+                    if i == dizhu:
+                        data = '地主胜！'
+                    else:
+                        data = '农民胜!'
+                    finished = True
+                    print(data)
+                    for j in range(0, 3):
+                        if person[j] == 2:
+                            send_data(data, sockets[j], names[j])
+            else:
+                if person[i] == 1:
+                    print('出牌不合法')
+                if person[i] == 2:
+                    data = '出牌不合法'
+                    send_data(data, sockets[i], names[i])
+                continue
+        i += 1
+
 if __name__ == '__main__':
     # 测试strategy
     # cards = [32, 34, 43, 51, 52, 53, 72, 74, 81, 83, 93, 94, 101, 102, 123, 131, 133]
@@ -1120,5 +1337,6 @@ if __name__ == '__main__':
     # print('地主胜: ' + str(count['dizhu']))
 
     # 开始玩
-    detect_user()
+    # detect_user()
+    play_gui(1)
 

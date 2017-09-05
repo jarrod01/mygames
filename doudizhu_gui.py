@@ -10,9 +10,8 @@ class DouDiZhu(QMainWindow):
         self.out_cards = [[], [], []]
         self.patterns = []
         self.scores = [0, 0, 0]
-        ai_names = ['Harry', 'Ron', 'Hermione', 'Albus', 'Severus', 'Minerva', 'Hagrid', 'Lupin', 'Moody', 'Horace',
-                    'Filius', 'Dom', 'Brian', 'Mia', 'Letty']
-        self.names = [host, ai_names[0], ai_names[1]]
+        self.tips_cards = []
+        self.names = [host, '', '']
         self.InitUI()
 
 
@@ -30,7 +29,7 @@ class DouDiZhu(QMainWindow):
         recordsAction = QAction('&Records', self)
         recordsAction.setShortcut('Ctrl+R')
         recordsAction.setStatusTip('Show your records')
-        recordsAction.triggered.connect(self.get_player_score)
+        recordsAction.triggered.connect(self.jiaofen)
 
         fileMenu = menubar.addMenu('&File')
         fileMenu.addAction(recordsAction)
@@ -52,48 +51,46 @@ class DouDiZhu(QMainWindow):
 
 
         self.widget = QWidget()
-        avatar_one = self.scaled_pixmap('pics/doudizhu.png')
-        avatar_two = self.scaled_pixmap('pics/guess_number.png')
-        avatar_three = self.scaled_pixmap('pics/doudizhu.png')
-        self.pix_avatars = [avatar_one, avatar_two, avatar_three]
-        avatars = []
-        lbl_names = []
+        self.avatars = []
+        self.lbl_names = []
         for i in range(3):
-            lbl_names.append(QLabel(self.names[i]))
+            self.lbl_names.append(QLabel(self.names[i]))
             lbl_tmp = QLabel()
-            lbl_tmp.setPixmap(self.pix_avatars[i])
-            avatars.append(lbl_tmp)
-        lbl_top = QLabel('This is for messages!')
-        cards_area_one = PukeOne(self.cards[0], False, 1, self)
-        cards_area_two = PukeTwo(self.cards[1], False, 2, self)
-        cards_area_three = PukeTwo(self.cards[2], False, 3, self)
-        out_cards_area_one = PukeOne([11, 12], True, 1, self)
-        out_cards_area_two = PukeTwo([22, 21], True, 2, self)
-        out_cards_area_three = PukeTwo([31, 32], True, 3, self)
-        card_area_dipai = PukeOne(self.cards[3], True, 0, self)
+            lbl_tmp.setPixmap(self.scaled_pixmap('pics/doudizhu.png'))
+            self.avatars.append(lbl_tmp)
+        self.lbl_top = QLabel('This is for messages!')
+        self.cards_area_one = PukeOne(self.cards[0], False, 1, self)
+        self.cards_area_two = PukeTwo(self.cards[1], False, 2, self)
+        self.cards_area_three = PukeTwo(self.cards[2], False, 3, self)
+        self.out_cards_area_one = PukeOne([], True, 1, self)
+        self.out_cards_area_two = PukeTwo([], True, 2, self)
+        self.out_cards_area_three = PukeTwo([], True, 3, self)
+        self.card_area_dipai = PukeOne(self.cards[3], True, 0, self)
+        self.cards_areas = [self.cards_area_one, self.cards_area_two, self.cards_area_three, self.card_area_dipai]
+        self.out_cards_areas = [self.out_cards_area_one, self.out_cards_area_two, self.out_cards_area_three]
         send_button = QPushButton('send')
         tips_button = QPushButton('tips')
         skip_button = QPushButton('skip')
         grid = QGridLayout()
         # 顶部放置玩家2、3的名称头像，提示条，横向、纵向均划为15份
-        grid.addWidget(lbl_names[1], 0, 0, 1, 2)
-        grid.addWidget(avatars[1], 1, 0, 2, 1)
-        grid.addWidget(lbl_top, 0, 2, 3, 11)
-        grid.addWidget(lbl_names[2], 0, 14, 1, 1)
-        grid.addWidget(avatars[2], 1, 14, 2, 1)
+        grid.addWidget(self.lbl_names[1], 0, 0, 1, 2)
+        grid.addWidget(self.avatars[1], 1, 0, 2, 1)
+        grid.addWidget(self.lbl_top, 0, 2, 3, 11)
+        grid.addWidget(self.lbl_names[2], 0, 14, 1, 1)
+        grid.addWidget(self.avatars[2], 1, 14, 2, 1)
 
         # 中间从左往右依次是玩家2的牌展示区，出牌区，底牌区，玩家3出牌区，玩家3牌展示区，中间下方为玩家1出牌区
-        grid.addWidget(cards_area_two, 3, 0, 9, 2)
-        grid.addWidget(out_cards_area_two, 3, 2, 6, 4)
-        grid.addWidget(card_area_dipai, 3, 6, 6, 3)
-        grid.addWidget(out_cards_area_three, 3, 9, 6, 4)
-        grid.addWidget(out_cards_area_one, 9, 2, 3, 11)
-        grid.addWidget(cards_area_three, 3, 13, 9, 2)
+        grid.addWidget(self.cards_area_two, 3, 0, 9, 2)
+        grid.addWidget(self.out_cards_area_two, 3, 2, 6, 4)
+        grid.addWidget(self.card_area_dipai, 3, 6, 6, 3)
+        grid.addWidget(self.out_cards_area_three, 3, 9, 6, 4)
+        grid.addWidget(self.out_cards_area_one, 9, 2, 3, 11)
+        grid.addWidget(self.cards_area_three, 3, 13, 9, 2)
 
         # 下方从左往右依次为玩家1的头像、名称、牌展示区，三个按钮：出牌、提示、跳过
-        grid.addWidget(avatars[0], 12, 0, 2, 2)
-        grid.addWidget(lbl_names[0], 14, 0, 1, 2)
-        grid.addWidget(cards_area_one, 12, 2, 3, 11)
+        grid.addWidget(self.avatars[0], 12, 0, 2, 2)
+        grid.addWidget(self.lbl_names[0], 14, 0, 1, 2)
+        grid.addWidget(self.cards_area_one, 12, 2, 3, 11)
         grid.addWidget(send_button, 12, 14, 1, 1)
         grid.addWidget(tips_button, 13, 14, 1, 1)
         grid.addWidget(skip_button, 14, 14, 1, 1)
@@ -122,14 +119,24 @@ class DouDiZhu(QMainWindow):
             height = int(avatar_heigth * avatar_width/max_width)
         return avatar.scaled(width, height, aspectRatioMode=Qt.KeepAspectRatio)
 
+    # 更换头像
+    def set_avatar(self, pic_path, player):
+        avatar = self.scaled_pixmap(pic_path)
+        self.avatars[player].setPixmap(avatar)
+
+    def set_player_name(self, name, player):
+        self.lbl_names[player].setText(name)
+
     def show_records(self):
         pass
 
-    def get_player_score(self):
+    def jiaofen(self):
         jiaofen = JiaoFenWindow(parent=self)
-        if jiaofen.exec_():
-            score = jiaofen.get_score()
+        jiaofen.exec_()
+        score = jiaofen.get_score()
         jiaofen.destroy()
+        self.lbl_top.setText(str(score))
+        return score
 
     def creat_room(self):
         pass
@@ -137,6 +144,19 @@ class DouDiZhu(QMainWindow):
     def join_room(self):
         pass
 
+    # 更新相应区域的牌
+    def update_cards_area(self, cards_area, cards):
+        cards_area.cards = cards
+        cards_area.update()
+
+    # 将提示的牌弹起来
+    def tips_action(self):
+        self.cards_area_one.chosen_cards = self.tips_cards
+        self.cards_area_one.update()
+
+    def card_distribute(self, cards):
+        for i in range(4):
+            self.update_cards_area(self.cards_areas[i], cards[i])
 
 # 底部横向的扑克排列，display_only代表不能点击，cards为牌的数字
 class PukeOne(QFrame):
@@ -217,13 +237,7 @@ class PukeOne(QFrame):
             self.chosen_cards.remove(self.cards[tmp])
         self.update()
 
-    def cards_sent(self, last_cards):
-        result = doudizhu.cards_validate(self.chosen_cards)
-        if not result['validate']:
-            return False
-        last_result = doudizhu.cards_validate(last_cards)
-        if not doudizhu.compare(last_result, result):
-            return False
+    def cards_sent(self):
         for card in self.chosen_cards:
             self.cards.remove(card)
         self.chosen_cards = []
