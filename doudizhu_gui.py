@@ -1,19 +1,20 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-import sys, os, doudizhu
+from random import randint
+from doudizhu import poker_distribute, pattern_spot, cards_validate, strategy, compare, ai_jiaofen
+import json, socket, threading, struct, sys, os, doudizhu
 
 class DouDiZhu(QMainWindow):
     def __init__(self, n, sockets=(0, 0, 0), host='jarrod'):
         super().__init__()
         self.cards = [[], [], [], []]
         self.out_cards = [[], [], []]
-        self.patterns = []
         self.scores = [0, 0, 0]
         self.tips_cards = []
         self.names = [host, '', '']
+        self.time_count = 0
         self.InitUI()
-
 
     def InitUI(self):
         screen = QDesktopWidget().screenGeometry()
@@ -35,6 +36,10 @@ class DouDiZhu(QMainWindow):
         fileMenu.addAction(recordsAction)
         fileMenu.addAction(exitAction)
 
+        playAction = QAction('Play', self)
+        playAction.triggered.connect(self.initiate_game)
+        menubar.addAction(playAction)
+
         hostAction = QAction('Create Room', self)
         hostAction.setStatusTip('Create a room and tell other players the room number!')
         hostAction.triggered.connect(self.creat_room)
@@ -49,6 +54,8 @@ class DouDiZhu(QMainWindow):
         # 用来创建窗口内的菜单栏
         menubar.setNativeMenuBar(False)
 
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.add_time)
 
         self.widget = QWidget()
         self.avatars = []
@@ -59,13 +66,16 @@ class DouDiZhu(QMainWindow):
             lbl_tmp.setPixmap(self.scaled_pixmap('pics/doudizhu.png'))
             self.avatars.append(lbl_tmp)
         self.lbl_top = QLabel('This is for messages!')
+        self.lcd_time = QLCDNumber()
+        self.lcd_time.setDigitCount(7)
+        self.lcd_time.setSegmentStyle(QLCDNumber.Flat)
         self.cards_area_one = PukeOne(self.cards[0], False, 1, self)
         self.cards_area_two = PukeTwo(self.cards[1], False, 2, self)
         self.cards_area_three = PukeTwo(self.cards[2], False, 3, self)
         self.out_cards_area_one = PukeOne([], True, 1, self)
         self.out_cards_area_two = PukeTwo([], True, 2, self)
         self.out_cards_area_three = PukeTwo([], True, 3, self)
-        self.card_area_dipai = PukeOne(self.cards[3], True, 0, self)
+        self.card_area_dipai = PukeOne(self.cards[3], True, 4, self)
         self.cards_areas = [self.cards_area_one, self.cards_area_two, self.cards_area_three, self.card_area_dipai]
         self.out_cards_areas = [self.out_cards_area_one, self.out_cards_area_two, self.out_cards_area_three]
         send_button = QPushButton('send')
@@ -75,7 +85,8 @@ class DouDiZhu(QMainWindow):
         # 顶部放置玩家2、3的名称头像，提示条，横向、纵向均划为15份
         grid.addWidget(self.lbl_names[1], 0, 0, 1, 2)
         grid.addWidget(self.avatars[1], 1, 0, 2, 1)
-        grid.addWidget(self.lbl_top, 0, 2, 3, 11)
+        grid.addWidget(self.lbl_top, 0, 2, 1, 10)
+        grid.addWidget(self.lcd_time, 0, 12, 1, 1)
         grid.addWidget(self.lbl_names[2], 0, 14, 1, 1)
         grid.addWidget(self.avatars[2], 1, 14, 2, 1)
 
@@ -119,13 +130,47 @@ class DouDiZhu(QMainWindow):
             height = int(avatar_heigth * avatar_width/max_width)
         return avatar.scaled(width, height, aspectRatioMode=Qt.KeepAspectRatio)
 
+    def initiate_game(self):
+        ai_names = ['Harry', 'Ron', 'Hermione', 'Albus', 'Severus', 'Minerva', 'Hagrid', 'Lupin', 'Moody', 'Horace',
+                    'Filius', 'Dom', 'Brian', 'Mia', 'Letty']
+        for i in range(1,3):
+            t = randint(0, len(ai_names)-1)
+            self.names[i] = ai_names[t]
+            self.lbl_names[i].setText(ai_names[t])
+            ai_names.remove(ai_names[t])
+        self.cards = poker_distribute()
+        for i in range(4):
+            self.update_cards_area(self.cards_areas[i], self.cards[i])
+        self.lbl_top.setText('开始叫分(1-3分)')
+        self.timer.start(1000)
+        self.scores[0] = self.jiaofen()
+        for i in range(1, 3):
+            self.scores[i] = ai_jiaofen(self.cards[i])
+        dizhu = self.scores.index(max(self.scores))
+        self.lbl_top.setText('地主是' + str(dizhu+1) + '号玩家：' + self.names[dizhu])
+        self.cards[dizhu] += self.cards[3]
+        self.cards[dizhu].sort()
+        self.update_cards_area(self.cards_areas[dizhu], self.cards[dizhu])
+        self.update_cards_area(self.cards_areas[3], [])
+        if dizhu != 0:
+            pass
+
+    def add_time(self):
+        self.time_count += 1
+        self.lcd_time.display(self.time_count)
+        if self.time_count > 3:
+            self.timer.stop()
+
+    def wait_certain_time(self, time):
+        while self.time_count < time:
+            print(self.time_count)
+        self.timer.stop()
+        return
+
     # 更换头像
     def set_avatar(self, pic_path, player):
         avatar = self.scaled_pixmap(pic_path)
         self.avatars[player].setPixmap(avatar)
-
-    def set_player_name(self, name, player):
-        self.lbl_names[player].setText(name)
 
     def show_records(self):
         pass
@@ -135,7 +180,6 @@ class DouDiZhu(QMainWindow):
         jiaofen.exec_()
         score = jiaofen.get_score()
         jiaofen.destroy()
-        self.lbl_top.setText(str(score))
         return score
 
     def creat_room(self):
@@ -154,9 +198,6 @@ class DouDiZhu(QMainWindow):
         self.cards_area_one.chosen_cards = self.tips_cards
         self.cards_area_one.update()
 
-    def card_distribute(self, cards):
-        for i in range(4):
-            self.update_cards_area(self.cards_areas[i], cards[i])
 
 # 底部横向的扑克排列，display_only代表不能点击，cards为牌的数字
 class PukeOne(QFrame):
@@ -183,11 +224,14 @@ class PukeOne(QFrame):
     def draw_cards(self, event, painter):
         self.card_infos = [] #每次画图前要把上次的info清空一遍
         for i in range(len(self.cards)):
-            card_file = find_card_image(self.cards[i])
+            if self.player == 4:
+                card_file = os.path.join('pics', os.path.join('pukeimage', 'back.jpg'))
+            else:
+                card_file = find_card_image(self.cards[i])
             pix_card = QPixmap(card_file)
             if self.display_only:   # 如果只是展示，牌的高度为模块的高度
-                # 底牌展示区高度放小一点,player=0代表底牌
-                if self.player == 0:
+                # 底牌展示区高度放小一点,player=4代表底牌
+                if self.player == 4:
                     card_width = int(pix_card.width() * (self.height() / 3) / pix_card.height())
                     card_height = int(self.height()/3)
                 else:
