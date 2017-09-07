@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from random import randint
-from doudizhu import poker_distribute, pattern_spot, cards_validate, strategy, compare, ai_jiaofen
+from doudizhu import poker_distribute, pattern_spot, cards_validate, strategy, compare, ai_jiaofen, rearrange
 import json, socket, threading, struct, sys, os, doudizhu
 
 class DouDiZhu(QMainWindow):
@@ -11,9 +11,15 @@ class DouDiZhu(QMainWindow):
         self.cards = [[], [], [], []]
         self.out_cards = [[], [], []]
         self.scores = [0, 0, 0]
+        self.dizhu = 0
+        self.player_now = self.dizhu
         self.tips_cards = []
+        self.finished = False
+        self.pass_me = [1, 1, 1]
+        self.can_pass = False
         self.names = [host, '', '']
-        self.time_count = 0
+        self.time_count = 5
+        self.user_acted = 0  # 0 等待叫分， 1 已经叫分，  2 等待出牌， 3 已出牌
         self.InitUI()
 
     def InitUI(self):
@@ -55,7 +61,7 @@ class DouDiZhu(QMainWindow):
         menubar.setNativeMenuBar(False)
 
         self.timer = QTimer()
-        self.timer.timeout.connect(self.add_time)
+        self.timer.timeout.connect(self.add_time_jiaofen)
 
         self.widget = QWidget()
         self.avatars = []
@@ -79,24 +85,26 @@ class DouDiZhu(QMainWindow):
         self.cards_areas = [self.cards_area_one, self.cards_area_two, self.cards_area_three, self.card_area_dipai]
         self.out_cards_areas = [self.out_cards_area_one, self.out_cards_area_two, self.out_cards_area_three]
         send_button = QPushButton('send')
+        send_button.clicked.connect(self.send_cards)
         tips_button = QPushButton('tips')
         skip_button = QPushButton('skip')
+        skip_button.clicked.connect(self.skip)
         grid = QGridLayout()
         # 顶部放置玩家2、3的名称头像，提示条，横向、纵向均划为15份
-        grid.addWidget(self.lbl_names[1], 0, 0, 1, 2)
-        grid.addWidget(self.avatars[1], 1, 0, 2, 1)
+        grid.addWidget(self.lbl_names[2], 0, 0, 1, 2)
+        grid.addWidget(self.avatars[2], 1, 0, 2, 1)
         grid.addWidget(self.lbl_top, 0, 2, 1, 10)
         grid.addWidget(self.lcd_time, 0, 12, 1, 1)
-        grid.addWidget(self.lbl_names[2], 0, 14, 1, 1)
-        grid.addWidget(self.avatars[2], 1, 14, 2, 1)
+        grid.addWidget(self.lbl_names[1], 0, 14, 1, 1)
+        grid.addWidget(self.avatars[1], 1, 14, 2, 1)
 
         # 中间从左往右依次是玩家2的牌展示区，出牌区，底牌区，玩家3出牌区，玩家3牌展示区，中间下方为玩家1出牌区
-        grid.addWidget(self.cards_area_two, 3, 0, 9, 2)
-        grid.addWidget(self.out_cards_area_two, 3, 2, 6, 4)
+        grid.addWidget(self.cards_area_three, 3, 0, 9, 2)
+        grid.addWidget(self.out_cards_area_three, 3, 2, 6, 4)
         grid.addWidget(self.card_area_dipai, 3, 6, 6, 3)
-        grid.addWidget(self.out_cards_area_three, 3, 9, 6, 4)
+        grid.addWidget(self.out_cards_area_two, 3, 9, 6, 4)
         grid.addWidget(self.out_cards_area_one, 9, 2, 3, 11)
-        grid.addWidget(self.cards_area_three, 3, 13, 9, 2)
+        grid.addWidget(self.cards_area_two, 3, 13, 9, 2)
 
         # 下方从左往右依次为玩家1的头像、名称、牌展示区，三个按钮：出牌、提示、跳过
         grid.addWidget(self.avatars[0], 12, 0, 2, 2)
@@ -142,30 +150,114 @@ class DouDiZhu(QMainWindow):
         for i in range(4):
             self.update_cards_area(self.cards_areas[i], self.cards[i])
         self.lbl_top.setText('开始叫分(1-3分)')
+        self.jiaofen()
+
+    def jiaofen(self):
         self.timer.start(1000)
-        self.scores[0] = self.jiaofen()
+        self.jiaofen_window = JiaoFenWindow(parent=self)
+        self.jiaofen_window.exec_()
+        self.scores[0] = self.jiaofen_window.get_score()
+        self.user_acted = 1
+        self.reset_timer()
+        self.jiaofen_window.destroy()
+        self.after_jiaofen()
+
+    def add_time_jiaofen(self):
+        self.lcd_time.display(self.time_count)
+        self.time_count -= 1
+        if self.time_count < 1:
+            self.timer.stop()
+            if self.user_acted == 0:
+                self.jiaofen_window.destroy()
+                self.reset_timer()
+                self.lbl_top.setText('时间到，放弃叫分')
+                self.after_jiaofen()
+            elif self.user_acted == 2:
+                self.lbl_top.setText('时间到，将自动出牌！')
+                self.ai_already_acted(self.player_now, self.last_result)
+                self.play_cycle()
+
+
+    def after_jiaofen(self):
         for i in range(1, 3):
             self.scores[i] = ai_jiaofen(self.cards[i])
-        dizhu = self.scores.index(max(self.scores))
-        self.lbl_top.setText('地主是' + str(dizhu+1) + '号玩家：' + self.names[dizhu])
-        self.cards[dizhu] += self.cards[3]
-        self.cards[dizhu].sort()
-        self.update_cards_area(self.cards_areas[dizhu], self.cards[dizhu])
+        self.dizhu = self.scores.index(max(self.scores))
+        self.player_now = self.dizhu
+        self.lbl_top.setText('地主是' + str(self.dizhu+1) + '号玩家：' + self.names[self.player_now])
+        self.cards[self.player_now] += self.cards[3]
+        self.cards[self.player_now].sort()
+        self.update_cards_area(self.cards_areas[self.player_now], self.cards[self.player_now])
         self.update_cards_area(self.cards_areas[3], [])
-        if dizhu != 0:
-            pass
 
-    def add_time(self):
-        self.time_count += 1
-        self.lcd_time.display(self.time_count)
-        if self.time_count > 3:
-            self.timer.stop()
+        self.play_cycle()
 
-    def wait_certain_time(self, time):
-        while self.time_count < time:
-            print(self.time_count)
+
+    def play_cycle(self):
+        while not self.finished:
+            if self.cards[self.player_now] == []:
+                self.lbl_top.setText('游戏结束，赢家是' + self.names[self.player_now])
+            # 如果上家和下家都没有出牌，则将对比的last_result初始化
+            if self.pass_me[(self.player_now - 1) % 3] and self.pass_me[(self.player_now - 2) % 3]:
+                self.last_result = {'validate': True, 'nums': [0], 'result': 'null'}
+                self.can_pass = False
+            else:
+                self.can_pass = True
+
+            if self.player_now == 0:
+                out_nums = strategy(self.cards[self.player_now], self.last_result)
+                self.reset_timer()
+                self.timer.start(1000)
+                self.user_acted = 2
+                break
+            else:
+                self.ai_already_acted(self.player_now, self.last_result)
+
+
+
+    def reset_timer(self):
         self.timer.stop()
-        return
+        self.lcd_time.display(0)
+        self.time_count = 20
+
+    def ai_already_acted(self, player, last_result):
+        out_nums = strategy(self.cards[player], last_result)
+        if not out_nums:
+            return []
+            # 如果上家是地主，对家出牌的时候不压
+        if (self.player_now - 1) % 3 == self.dizhu and self.pass_me[self.dizhu] and not self.pass_me[(self.player_now - 2) % 3] and not self.person[self.player_now]:
+            out_nums = []
+            self.pass_me[self.player_now] = 1
+        # 如果上家是对家，且出了大牌，那么不压
+        if self.player_now != self.dizhu and (self.player_now - 1) % 3 != self.dizhu and last_result['nums'][0] in [13, 14] and not self.pass_me[
+                    (self.player_now - 1) % 3] and not self.person[self.player_now]:
+            out_nums = []
+            self.pass_me[self.player_now] = 1
+        out_cards = rearrange(self.cards[self.player_now], out_nums)
+
+        if self.pass_me[self.player_now] == 0:
+            self.last_result = cards_validate(out_cards)
+
+        self.play_out_cards(self.player_now, out_cards)
+        if self.cards[player] != []:
+            self.player_now = (self.player_now + 1) % 3
+        return out_cards
+
+    def finished_or_not(self, player):
+        if len(self.cards[player]) == 0:
+            if player == self.dizhu:
+                self.lbl_top.setText('游戏结束，地主胜！')
+            else:
+                self.lbl_top.setText('游戏结束，农民胜！')
+            return True
+        else:
+            return False
+
+    # 把牌打出去的动作
+    def play_out_cards(self, player, outcards):
+        for card in outcards:
+            self.cards[player].remove(card)
+        self.update_cards_area(self.cards_areas[player], self.cards[player])
+        self.update_cards_area(self.out_cards_areas[player], outcards)
 
     # 更换头像
     def set_avatar(self, pic_path, player):
@@ -174,13 +266,6 @@ class DouDiZhu(QMainWindow):
 
     def show_records(self):
         pass
-
-    def jiaofen(self):
-        jiaofen = JiaoFenWindow(parent=self)
-        jiaofen.exec_()
-        score = jiaofen.get_score()
-        jiaofen.destroy()
-        return score
 
     def creat_room(self):
         pass
@@ -197,6 +282,37 @@ class DouDiZhu(QMainWindow):
     def tips_action(self):
         self.cards_area_one.chosen_cards = self.tips_cards
         self.cards_area_one.update()
+
+    # 发送按钮
+    def send_cards(self):
+        if not self.cards[0]:
+            return
+        out_cards = self.cards_areas[0].chosen_cards
+        out_result = cards_validate(out_cards)
+        bigger = compare(self.last_result, out_result)
+        if bigger and out_result['validate']:
+            self.play_out_cards(0, out_cards)
+            self.last_result = out_result
+            self.finished = self.finished_or_not(0)
+            if not self.finished:
+                self.user_already_acted()
+        else:
+            self.lbl_top.setText('出牌不合法，请检查！')
+
+    def skip(self):
+        if not self.cards[0]:
+            return
+        if not self.can_pass:
+            self.lbl_top.setText('您不能跳过出牌！')
+        else:
+            self.lbl_top.setText('1号玩家' + self.names[0] + '过！')
+            self.user_already_acted()
+
+    def user_already_acted(self):
+        self.player_now = (self.player_now + 1) % 3
+        self.reset_timer()
+        self.user_acted = 3
+        self.play_cycle()
 
 
 # 底部横向的扑克排列，display_only代表不能点击，cards为牌的数字

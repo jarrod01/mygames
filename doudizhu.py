@@ -732,7 +732,7 @@ def play(n, sockets = (0, 0, 0), host = ''):
     can_pass = False
     while not finished:
         i = i % 3
-        # 如果上家和下家都没有出牌，则将对比的last_result初始化
+
         if pass_me[(i - 1) % 3] and pass_me[(i - 2) % 3]:
             print('\n')
             for j in range(0, 3):
