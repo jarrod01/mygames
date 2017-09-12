@@ -30,7 +30,9 @@ class DouDiZhu(QMainWindow):
         self.can_pass = False
         self.person = [1, 0, 0]
         self.names = [host, '', '']
-        self.time_count = 5
+        self.time_count = 5000
+        self.fake_ai_think_time = 200000000
+        self.winner = '地主'
         self.user_acted = 0  # 0 等待叫分， 1 已经叫分，  2 等待出牌， 3 已出牌
         self.replay = False
         self.InitUI()
@@ -82,7 +84,7 @@ class DouDiZhu(QMainWindow):
         for i in range(3):
             self.lbl_names.append(QLabel(self.names[i]))
             lbl_tmp = QLabel()
-            lbl_tmp.setPixmap(self.scaled_pixmap('pics/doudizhu.png'))
+            lbl_tmp.setPixmap(self.scaled_pixmap(os.path.join('pics', 'doudizhu.png')))
             self.avatars.append(lbl_tmp)
         self.lbl_top = QLabel('This is for messages!')
         self.lcd_time = QLCDNumber()
@@ -152,6 +154,19 @@ class DouDiZhu(QMainWindow):
             height = int(avatar_heigth * avatar_width/max_width)
         return avatar.scaled(width, height, aspectRatioMode=Qt.KeepAspectRatio)
 
+    def set_avatar(self):
+        for i in range(3):
+            if i == 1:
+                direction = 'left'
+            else:
+                direction = 'right'
+            dizhu_avatar = self.scaled_pixmap(os.path.join('pics', os.path.join('pukeimage', 'dizhu-' + direction + '.jpg')))
+            nongmin_avatar = self.scaled_pixmap(os.path.join('pics', os.path.join('pukeimage', 'nongmin-' + direction + '.jpg')))
+            if i == self.dizhu:
+                self.avatars[i].setPixmap(dizhu_avatar)
+            else:
+                self.avatars[i].setPixmap(nongmin_avatar)
+
     def initiate_game(self):
         ai_names = ['Harry', 'Ron', 'Hermione', 'Albus', 'Severus', 'Minerva', 'Hagrid', 'Lupin', 'Moody', 'Horace',
                     'Filius', 'Dom', 'Brian', 'Mia', 'Letty']
@@ -159,10 +174,15 @@ class DouDiZhu(QMainWindow):
         self.finished = False
         self.pass_me = [1, 1, 1]
         self.can_pass = False
-        self.time_count = 5
-        self.user_acted = 0
+        self.time_count = 5000
+        self.fake_ai_think_time = 100000000
+        self.user_acted = 0  # 0 等待叫分， 1 已经叫分，  2 等待出牌， 3 已出牌
+        self.cards_areas[3].can_display_dipai = False
         for i in range(3):
+            if i > 0:
+                self.cards_areas[i].diplay_num = False
             self.update_cards_area(self.out_cards_areas[i], [])
+            self.avatars[i].setPixmap(self.scaled_pixmap(os.path.join('pics', 'doudizhu.png')))
         if not self.replay:
             for i in range(1,3):
                 t = randint(0, len(ai_names)-1)
@@ -177,7 +197,7 @@ class DouDiZhu(QMainWindow):
         self.jiaofen()
 
     def jiaofen(self):
-        self.timer.start(1000)
+        self.timer.start(1)
         self.jiaofen_window = JiaoFenWindow(parent=self)
         self.jiaofen_window.exec_()
         self.scores[0] = self.jiaofen_window.get_score()
@@ -188,33 +208,35 @@ class DouDiZhu(QMainWindow):
         self.after_jiaofen()
 
     def add_time(self):
-        self.lcd_time.display(self.time_count)
+        self.lcd_time.display(int(self.time_count/1000))
         self.time_count -= 1
-        if self.time_count < 1:
+        self.fake_ai_think_time -= 1
+        if self.time_count < 0:
             self.timer.stop()
             self.reset_timer()
-            # if self.user_acted == 0:
-            #     self.jiaofen_window.destroy()
-            #     self.reset_timer()
-            #     self.lbl_top.setText('时间到，放弃叫分')
-            #     self.after_jiaofen()
             if self.user_acted == 2:
                 self.lbl_top.setText('时间到，将自动出牌！')
                 self.ai_already_acted()
                 self.user_already_acted()
+        if self.fake_ai_think_time < 0:
+            self.ai_already_acted()
+            self.reset_timer()
+            self.play_cycle()
 
     def after_jiaofen(self):
         for i in range(1, 3):
             self.scores[i] = ai_jiaofen(self.cards[i])
         logger.info('all jiaofen: ' + str(self.scores))
         self.dizhu = self.scores.index(max(self.scores))
+        self.set_avatar()
         self.player_now = self.dizhu
         logger.info('dizhu: ' + str(self.player_now+1))
         self.lbl_top.setText('地主是' + str(self.player_now+1) + '号玩家：' + self.names[self.player_now])
         self.cards[self.player_now] += self.cards[3]
         self.cards[self.player_now].sort()
         self.update_cards_area(self.cards_areas[self.player_now], self.cards[self.player_now])
-        self.update_cards_area(self.cards_areas[3], [])
+        self.cards_areas[3].can_display_dipai = True
+        self.cards_areas[3].update()
         self.play_cycle()
 
     def play_cycle(self):
@@ -229,23 +251,27 @@ class DouDiZhu(QMainWindow):
             else:
                 self.can_pass = True
 
-            if self.player_now == 0:
-                self.update_cards_area(self.out_cards_areas[0], [])
-                self.reset_timer()
-                self.timer.start(1000)
+            if self.person[self.player_now]:
+                self.fake_ai_think_time = 10000000
                 self.user_acted = 2
-                break
             else:
-                self.ai_already_acted()
+                out_nums = strategy(self.cards[self.player_now], self.last_result)
+                if out_nums:
+                    self.fake_ai_think_time = randint(100, 2000)
+                else:
+                    self.fake_ai_think_time = 200
+            self.reset_timer()
+            self.timer.start(1)
+            self.update_cards_area(self.out_cards_areas[self.player_now], [])
+            break
 
     def reset_timer(self):
         if self.timer.isActive():
             self.timer.stop()
         self.lcd_time.display(0)
-        self.time_count = 20
+        self.time_count = 20000
 
     def ai_already_acted(self, real_ai=True):
-        self.update_cards_area(self.out_cards_areas[self.player_now], [])
         self.pass_me[self.player_now] = 0
         out_nums = strategy(self.cards[self.player_now], self.last_result)
         logger.info('上家出牌是：' + str(self.last_result) + '\n' + str(self.player_now+1) + '号玩家的牌是：' + str(
@@ -281,15 +307,30 @@ class DouDiZhu(QMainWindow):
     def finished_or_not(self):
         if len(self.cards[self.player_now]) == 0:
             if self.player_now == self.dizhu:
+                self.winner = '地主'
                 self.lbl_top.setText('游戏结束，地主胜！')
             else:
+                self.winner = '农民'
                 self.lbl_top.setText('游戏结束，农民胜！')
+            # 将玩家2和3的牌展示出来
+            for i in range(1, 3):
+                self.cards_areas[i].diplay_num = True
+                self.cards_areas[i].update()
+            replay_window = ReplayWindow(self.winner)
+            replay_window.exec_()
+            self.replay = replay_window.get_replay()
+            replay_window.destroy()
+            if self.replay:
+                self.initiate_game()
+            else:
+                self.close()
             return True
         else:
             return False
 
     # 把牌打出去的动作
     def play_out_cards(self, outcards):
+        self.reset_timer()
         if outcards and 161 not in outcards:
             for card in outcards:
                 self.cards[self.player_now].remove(card)
@@ -305,11 +346,6 @@ class DouDiZhu(QMainWindow):
         if self.finished:
             return
         self.player_now = (self.player_now + 1) % 3
-
-    # 更换头像
-    def set_avatar(self, pic_path, player):
-        avatar = self.scaled_pixmap(pic_path)
-        self.avatars[player].setPixmap(avatar)
 
     def show_records(self):
         pass
@@ -330,6 +366,7 @@ class DouDiZhu(QMainWindow):
         if not self.cards[0]:
             return
         out_cards = self.cards_areas[0].chosen_cards
+        out_cards.sort()
         logger.info('上家出牌是：' + str(self.last_result) + "1号玩家选择的牌是：" + str(out_cards))
         out_result = cards_validate(out_cards)
         logger.info('系统校验牌是否符合规则，结果是：' + str(out_result))
@@ -354,12 +391,17 @@ class DouDiZhu(QMainWindow):
             logger.info("1号玩家过")
             self.play_out_cards([])
             self.user_already_acted()
+            self.cards_areas[0].chosen_cards = []
+            self.cards_areas[0].update()
 
 
     def tips(self):
         outcards = self.ai_already_acted(real_ai=False)
         self.cards_areas[0].chosen_cards = outcards
         self.cards_areas[0].update()
+        if not outcards:
+            self.lbl_top.setText('没有牌能大过对方，自动跳过！')
+            self.skip()
 
     def user_already_acted(self):
         self.reset_timer()
@@ -377,6 +419,7 @@ class PukeOne(QFrame):
         self.parent = parent
         self.chosen_cards = []
         self.card_infos = []
+        self.can_display_dipai = False
 
         self.InitUI()
 
@@ -392,7 +435,7 @@ class PukeOne(QFrame):
     def draw_cards(self, event, painter):
         self.card_infos = [] #每次画图前要把上次的info清空一遍
         for i in range(len(self.cards)):
-            if self.player == 4:
+            if self.player == 4 and not self.can_display_dipai:
                 card_file = os.path.join('pics', os.path.join('pukeimage', 'back.jpg'))
             else:
                 card_file = find_card_image(self.cards[i])
@@ -502,17 +545,17 @@ class PukeTwo(QFrame):
             if self.diplay_num:
                 card_height = int(pix_card.height() * (self.width() / 3) / pix_card.width())
                 card_width = int(self.width() / 3)
-                # 如果是玩家3，应该靠右展示
-                if self.player == 2:
+                # 如果是玩家3，应该靠左展示
+                if self.player == 3:
                     cur_x = 0
-                elif self.player == 3:
+                elif self.player == 2:
                     cur_x = int(self.width() * 2 / 3)
             else:
                 card_height = int(pix_card.height() * (self.width()/2) / pix_card.width())
                 card_width = int(self.width()/2)
-                if self.player == 2:
+                if self.player == 3:
                     cur_x = 0
-                elif self.player == 3:
+                elif self.player == 2:
                     cur_x = int(self.width() / 2)
             # 两张牌之间重叠1/3，因此中间点牌占的总宽度就是2/3*h*n+1/3*h
             stack_ratio = 1 / 3
@@ -559,13 +602,57 @@ class JiaoFenWindow(QDialog):
         return self.score
 
 
+class ReplayWindow(QDialog):
+    def __init__(self, winner, parent=None):
+        super().__init__()
+        self.winner = winner
+        self.replay = 0
+
+        self.InitUI()
+
+    def InitUI(self):
+        hbox = QHBoxLayout()
+        cancel_button = QPushButton('Cancel')
+        cancel_button.clicked.connect(self.button_clicked)
+        replay_button = QPushButton('Replay')
+        replay_button.clicked.connect(self.button_clicked)
+        hbox.addWidget(cancel_button)
+        hbox.addWidget(replay_button)
+        vbox = QVBoxLayout()
+        lbl_winner = QLabel(self.winner + '胜！')
+        vbox.addWidget(lbl_winner)
+        vbox.addLayout(hbox)
+        self.setLayout(vbox)
+        self.setWindowTitle('再玩一局？')
+        self.show()
+
+    def button_clicked(self):
+        sender = self.sender()
+        text = sender.text()
+        if text == 'Replay':
+            self.replay = True
+        else:
+            self.replay = False
+        self.close()
+
+    def get_replay(self):
+        return self.replay
+
+
 def find_card_image(num):
     n =int(num / 10)
     color = num % 10
     puke_path = os.path.join('pics', 'pukeimage')
-    if n >= 14:
-        if n == 16:
-            logger.debug('有人过了，看看图像展示不展示')
+    if n == 16:
+        pass_pics_dir = os.path.join(puke_path, 'pass')
+        pass_pics = os.listdir(pass_pics_dir)
+        for pic in pass_pics:
+            suffix = os.path.splitext(pic)
+            if suffix not in ['jpg', 'png', 'jpeg']:
+                pass_pics.remove(pic)
+        pic_path = os.path.join(pass_pics_dir, pass_pics[randint(0, len(pass_pics)-1)])
+        return pic_path
+    elif n >= 14:
         return os.path.join(puke_path, str(num) + '.jpg')
     elif n >= 12:
         return os.path.join(puke_path, os.path.join(str(color), str(n-11)+'.jpg'))
@@ -574,5 +661,6 @@ def find_card_image(num):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    # replay = ReplayWindow('地主')
     doudizhu = DouDiZhu(1)
     app.exec_()

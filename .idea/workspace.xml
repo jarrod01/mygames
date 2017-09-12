@@ -2,10 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="57d99694-1819-4c18-a88d-bfcab721a9c3" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pics/pukeimage/161.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pics/pukeimage/dizhu-left.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pics/pukeimage/dizhu-right.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pics/pukeimage/nongmin-left.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pics/pukeimage/nongmin-right.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pics/pukeimage/pass/161.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pics/pukeimage/pass/2.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pics/pukeimage/pass/3.jpeg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pics/pukeimage/pass/4.jpeg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pics/pukeimage/pass/5.jpeg" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doudizhu_gui_old.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/pics/pukeimage/161.jpg" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doudizhu_gui.py" afterPath="$PROJECT_DIR$/doudizhu_gui.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log" afterPath="$PROJECT_DIR$/log" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/todo" afterPath="$PROJECT_DIR$/todo" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,7 +27,7 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/mygames$example_mouse_pressevent.coverage" NAME="example_mouse_pressevent Coverage Results" MODIFIED="1504439473415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/mygames$doudizhu_gui.coverage" NAME="doudizhu_gui Coverage Results" MODIFIED="1505148758968" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/mygames$doudizhu_gui.coverage" NAME="doudizhu_gui Coverage Results" MODIFIED="1505234744641" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/mygames$doudizhu.coverage" NAME="doudizhu Coverage Results" MODIFIED="1504700930041" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/mygames$example_layout.coverage" NAME="example_layout Coverage Results" MODIFIED="1504531174068" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/mygames$process_excel.coverage" NAME="process_excel Coverage Results" MODIFIED="1504707830321" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -32,7 +42,7 @@
       <file leaf-file-name="login.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/login.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="370">
+            <state relative-caret-position="0">
               <caret line="90" column="0" lean-forward="false" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
@@ -61,8 +71,8 @@
       <file leaf-file-name="doudizhu.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/doudizhu.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1393">
-              <caret line="401" column="24" lean-forward="true" selection-start-line="401" selection-start-column="24" selection-end-line="401" selection-end-column="24" />
+            <state relative-caret-position="15">
+              <caret line="401" column="24" lean-forward="false" selection-start-line="401" selection-start-column="24" selection-end-line="401" selection-end-column="24" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
                 <element signature="e#101#860#0" expanded="false" />
@@ -79,39 +89,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="doudizhu_gui.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="doudizhu_gui.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/doudizhu_gui.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="357" column="0" lean-forward="true" selection-start-line="357" selection-start-column="0" selection-end-line="357" selection-end-column="0" />
+            <state relative-caret-position="296">
+              <caret line="180" column="26" lean-forward="true" selection-start-line="180" selection-start-column="26" selection-end-line="180" selection-end-column="26" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
-                <element signature="e#5745#6321#0" expanded="false" />
-                <element signature="e#13180#13184#0" expanded="false" />
-                <element signature="e#14794#18589#0" expanded="false" />
-                <element signature="e#18619#21160#0" expanded="false" />
-                <element signature="e#21197#21883#0" expanded="false" />
+                <element signature="e#14781#14785#0" expanded="false" />
+                <element signature="e#24819#25571#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="log" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/log">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="todo" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/todo">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="5" lean-forward="false" selection-start-line="3" selection-start-column="5" selection-end-line="3" selection-end-column="5" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -163,6 +150,12 @@
       <find>logger</find>
       <find>地主胜</find>
       <find>tips_ac</find>
+      <find>time_count</find>
+      <find>fake</find>
+      <find>timer</find>
+      <find>timer.sta</find>
+      <find>finished</find>
+      <find>finished_</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -181,8 +174,8 @@
         <option value="$PROJECT_DIR$/doudizhu.py" />
         <option value="$PROJECT_DIR$/symbol.py" />
         <option value="$PROJECT_DIR$/log" />
-        <option value="$PROJECT_DIR$/doudizhu_gui.py" />
         <option value="$PROJECT_DIR$/todo" />
+        <option value="$PROJECT_DIR$/doudizhu_gui.py" />
       </list>
     </option>
   </component>
@@ -426,13 +419,20 @@
       <option name="project" value="LOCAL" />
       <updated>1504799219681</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="fix">
+      <created>1505148878064</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1505148878064</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1366" height="741" extended-state="0" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24597365" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24597365" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32735425" sideWeight="0.5087848" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -479,7 +479,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="53" />
+      <option name="time" value="54" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -515,11 +515,8 @@
           <caret line="3" column="8" lean-forward="false" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
-            <element signature="e#5745#6321#0" expanded="false" />
-            <element signature="e#13180#13184#0" expanded="false" />
-            <element signature="e#14794#18589#0" expanded="false" />
-            <element signature="e#18619#21160#0" expanded="false" />
-            <element signature="e#21197#21883#0" expanded="false" />
+            <element signature="e#14781#14785#0" expanded="false" />
+            <element signature="e#24819#25571#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -649,11 +646,8 @@
           <caret line="32" column="26" lean-forward="true" selection-start-line="32" selection-start-column="26" selection-end-line="32" selection-end-column="26" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
-            <element signature="e#5745#6321#0" expanded="false" />
-            <element signature="e#13180#13184#0" expanded="false" />
-            <element signature="e#14794#18589#0" expanded="false" />
-            <element signature="e#18619#21160#0" expanded="false" />
-            <element signature="e#21197#21883#0" expanded="false" />
+            <element signature="e#14781#14785#0" expanded="false" />
+            <element signature="e#24819#25571#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -726,11 +720,8 @@
           <caret line="88" column="27" lean-forward="true" selection-start-line="88" selection-start-column="27" selection-end-line="88" selection-end-column="27" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
-            <element signature="e#5745#6321#0" expanded="false" />
-            <element signature="e#13180#13184#0" expanded="false" />
-            <element signature="e#14794#18589#0" expanded="false" />
-            <element signature="e#18619#21160#0" expanded="false" />
-            <element signature="e#21197#21883#0" expanded="false" />
+            <element signature="e#14781#14785#0" expanded="false" />
+            <element signature="e#24819#25571#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -785,11 +776,8 @@
           <caret line="84" column="12" lean-forward="false" selection-start-line="84" selection-start-column="12" selection-end-line="84" selection-end-column="12" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
-            <element signature="e#5745#6321#0" expanded="false" />
-            <element signature="e#13180#13184#0" expanded="false" />
-            <element signature="e#14794#18589#0" expanded="false" />
-            <element signature="e#18619#21160#0" expanded="false" />
-            <element signature="e#21197#21883#0" expanded="false" />
+            <element signature="e#14781#14785#0" expanded="false" />
+            <element signature="e#24819#25571#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -960,7 +948,7 @@
     <entry file="file://$PROJECT_DIR$/process_excel.py" />
     <entry file="file://$PROJECT_DIR$/login.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
+        <state relative-caret-position="0">
           <caret line="90" column="0" lean-forward="false" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
@@ -989,10 +977,36 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/pics/pukeimage/161.jpg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="LargeFileEditor">
+        <state relative-caret-position="225">
+          <caret line="15" column="63" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="15112" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/todo">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="5" lean-forward="true" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/doudizhu.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1393">
-          <caret line="401" column="24" lean-forward="true" selection-start-line="401" selection-start-column="24" selection-end-line="401" selection-end-column="24" />
+        <state relative-caret-position="15">
+          <caret line="401" column="24" lean-forward="false" selection-start-line="401" selection-start-column="24" selection-end-line="401" selection-end-column="24" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
             <element signature="e#101#860#0" expanded="false" />
@@ -1008,44 +1022,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pics/pukeimage/161.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/doudizhu_gui.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="357" column="0" lean-forward="true" selection-start-line="357" selection-start-column="0" selection-end-line="357" selection-end-column="0" />
+        <state relative-caret-position="296">
+          <caret line="180" column="26" lean-forward="true" selection-start-line="180" selection-start-column="26" selection-end-line="180" selection-end-column="26" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
-            <element signature="e#5745#6321#0" expanded="false" />
-            <element signature="e#13180#13184#0" expanded="false" />
-            <element signature="e#14794#18589#0" expanded="false" />
-            <element signature="e#18619#21160#0" expanded="false" />
-            <element signature="e#21197#21883#0" expanded="false" />
+            <element signature="e#14781#14785#0" expanded="false" />
+            <element signature="e#24819#25571#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="LargeFileEditor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/todo">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="5" lean-forward="false" selection-start-line="3" selection-start-column="5" selection-end-line="3" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
