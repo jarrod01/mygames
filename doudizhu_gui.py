@@ -7,10 +7,10 @@ import json, socket, threading, struct, sys, os, doudizhu, logging
 
 logger_name = 'doudizhu_log'
 logger = logging.getLogger(logger_name)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.WARNING)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 fh = logging.FileHandler('log')
-fh.setLevel(logging.DEBUG)
+fh.setLevel(logging.WARNING)
 fh.setFormatter(formatter)
 logger.addHandler(fh)
 # logging.basicConfig(filename='log', level=logging.DEBUG)
