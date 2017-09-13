@@ -447,7 +447,7 @@ def strategy(cards, in_result):
         if patterns['three_ones']:
             return three_ones(patterns['three_ones'][0])
         if patterns['fours'] and len(cards) == 4:
-            n = cards[0]
+            n = patterns['fours'][0]
             return [n] * 4
         if patterns['threes']:
             for i in range(len(patterns['threes'])):
@@ -1112,8 +1112,8 @@ def detect_user():
 
 if __name__ == '__main__':
     # 测试strategy
-    # cards = [32, 34, 43, 51, 52, 53, 72, 74, 81, 83, 93, 94, 101, 102, 123, 131, 133]
-    # in_result = {'nums': [7, 8, 9], 'result': 'straights_double', 'validate': True}
+    # cards = [11, 12, 13, 14]
+    # in_result = {'nums': [0], 'result': 'null', 'validate': True}
     # result = strategy(cards, in_result)
     # print(result)
 
