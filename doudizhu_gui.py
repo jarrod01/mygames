@@ -35,6 +35,7 @@ class DouDiZhu(QMainWindow):
         self.winner = '地主'
         self.user_acted = 0  # 0 等待叫分， 1 已经叫分，  2 等待出牌， 3 已出牌
         self.replay = False
+        self.out_card_height = 0
         self.InitUI()
 
     def InitUI(self):
@@ -94,8 +95,8 @@ class DouDiZhu(QMainWindow):
         self.cards_area_two = PukeTwo(self.cards[1], False, 2, self)
         self.cards_area_three = PukeTwo(self.cards[2], False, 3, self)
         self.out_cards_area_one = PukeOne([], True, 1, self)
-        self.out_cards_area_two = PukeTwo([], True, 2, self)
-        self.out_cards_area_three = PukeTwo([], True, 3, self)
+        self.out_cards_area_two = PukeThree([], True, 2, self)
+        self.out_cards_area_three = PukeThree([], True, 3, self)
         self.card_area_dipai = PukeOne(self.cards[3], True, 4, self)
         self.cards_areas = [self.cards_area_one, self.cards_area_two, self.cards_area_three, self.card_area_dipai]
         self.out_cards_areas = [self.out_cards_area_one, self.out_cards_area_two, self.out_cards_area_three]
@@ -109,16 +110,16 @@ class DouDiZhu(QMainWindow):
         # 顶部放置玩家2、3的名称头像，提示条，横向、纵向均划为15份
         grid.addWidget(self.lbl_names[2], 0, 0, 1, 2)
         grid.addWidget(self.avatars[2], 1, 0, 2, 1)
-        grid.addWidget(self.lbl_top, 0, 2, 1, 10)
+        grid.addWidget(self.lbl_top, 0, 2, 1, 4)
         grid.addWidget(self.lcd_time, 0, 12, 1, 1)
         grid.addWidget(self.lbl_names[1], 0, 14, 1, 1)
         grid.addWidget(self.avatars[1], 1, 14, 2, 1)
 
         # 中间从左往右依次是玩家2的牌展示区，出牌区，底牌区，玩家3出牌区，玩家3牌展示区，中间下方为玩家1出牌区
         grid.addWidget(self.cards_area_three, 3, 0, 9, 2)
-        grid.addWidget(self.out_cards_area_three, 3, 2, 6, 4)
-        grid.addWidget(self.card_area_dipai, 3, 6, 6, 3)
-        grid.addWidget(self.out_cards_area_two, 3, 9, 6, 4)
+        grid.addWidget(self.out_cards_area_three, 3, 2, 6, 5)
+        grid.addWidget(self.card_area_dipai, 0, 6, 3, 3)
+        grid.addWidget(self.out_cards_area_two, 3, 9, 6, 5)
         grid.addWidget(self.out_cards_area_one, 9, 2, 3, 11)
         grid.addWidget(self.cards_area_two, 3, 13, 9, 2)
 
@@ -136,6 +137,9 @@ class DouDiZhu(QMainWindow):
         self.setWindowTitle('Doudizhu --' + self.names[0])
         self.setWindowIcon(QIcon(os.path.join('pics', 'doudizhu.png')))
         self.show()
+
+    def get_default_out_card_height(self):
+        return self.out_cards_area_one.height()
 
     # 将头像缩小至对应区域的大小，同时保持比例
     def scaled_pixmap(self, pic):
@@ -567,6 +571,60 @@ class PukeTwo(QFrame):
                     # 此处写如果重叠率到了3/4还不行的情况，应该折行，懒得写了
                     break
             cur_y = int((self.height() - all_cards_height) / 2 + i * card_height*(1-stack_ratio))
+            pix_card = pix_card.scaledToHeight(card_height)
+            tmp_card_info = {'index': i, 'pix': pix_card, 'x': cur_x, 'y': cur_y}
+            self.card_infos.append(tmp_card_info)
+            painter.drawPixmap(cur_x, cur_y, pix_card)
+
+
+class PukeThree(QFrame):
+    def __init__(self, cards, display_num, player, parent):
+        super().__init__(parent)
+        self.cards = cards
+        self.diplay_num = display_num
+        self.player = player
+        self.parent = parent
+
+        self.InitUI()
+
+    def InitUI(self):
+        self.show()
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        # painter.begin(self)
+        self.draw_cards(event, painter)
+        # painter.end()
+
+    def draw_cards(self, event, painter):
+        self.card_infos = []  # 每次画图前要把上次的info清空一遍
+
+        for i in range(len(self.cards)):
+            card_file = find_card_image(self.cards[i])
+            pix_card = QPixmap(card_file)
+
+            # 横向的两张牌之间重叠3/4，纵向的牌重叠stack_ratio
+            card_height = self.parent.get_default_out_card_height()
+            card_width = int(pix_card.width() * card_height / pix_card.height())
+
+            #计算一下一行可以放多少张牌,((n-1)/4+1)*width = self.width, n=4*self.width/width-3
+            cards_per_row = int(4 * self.width() / card_width) - 3
+
+            cur_x = (i % cards_per_row) * card_width / 4
+            # 如果是2号玩家，应该靠右，画图起点在所有牌的
+            if self.player == 2:
+                if len(self.cards) < cards_per_row:
+                    cur_x = cur_x + int(self.width() - card_width*(len(self.cards)+3)/4)
+            # 两张牌之间重叠1/3，因此中间点牌占的总宽度就是2/3*h*n+1/3*h
+            stack_ratio = 1 / 3
+            all_cards_height = ((1 - stack_ratio) * len(self.cards) / cards_per_row + stack_ratio) * card_height
+            while all_cards_height > self.height():
+                stack_ratio += 0.01
+                all_cards_height = ((1 - stack_ratio) * len(self.cards) + stack_ratio) * card_height
+                if stack_ratio > 5 / 6:
+                    # 此处写如果重叠率到了3/4还不行的情况，应该折行，懒得写了
+                    break
+            cur_y = (1-stack_ratio)*card_height*int(i/cards_per_row)
             pix_card = pix_card.scaledToHeight(card_height)
             tmp_card_info = {'index': i, 'pix': pix_card, 'x': cur_x, 'y': cur_y}
             self.card_infos.append(tmp_card_info)
