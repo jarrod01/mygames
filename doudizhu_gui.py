@@ -141,6 +141,7 @@ class DouDiZhu(QMainWindow):
         self.setWindowTitle('Doudizhu --' + self.names[0])
         self.setWindowIcon(QIcon(os.path.join('pics', 'doudizhu.png')))
         self.show()
+        self.play_music()
 
     def get_default_out_card_height(self):
         return self.out_cards_area_one.height()
@@ -176,6 +177,8 @@ class DouDiZhu(QMainWindow):
                 self.avatars[i].setPixmap(nongmin_avatar)
 
     def initiate_game(self):
+        index = randint(1,2)
+        self.change_music(index)
         ai_names = ['Harry', 'Ron', 'Hermione', 'Albus', 'Severus', 'Minerva', 'Hagrid', 'Lupin', 'Moody', 'Horace',
                     'Filius', 'Dom', 'Brian', 'Mia', 'Letty']
         self.scores = [0, 0, 0]
@@ -219,6 +222,9 @@ class DouDiZhu(QMainWindow):
         self.lcd_time.display(int(self.time_count/1000))
         self.time_count -= 1
         self.fake_ai_think_time -= 1
+        # 语音提示
+        if self.time_count in [6000, 5000, 4000, 3000, 2000]:
+            self.play_sound('Special_Remind.mp3')
         if self.time_count < 0:
             self.timer.stop()
             self.reset_timer()
@@ -328,6 +334,12 @@ class DouDiZhu(QMainWindow):
                     host_win = True
                 self.winner = '农民'
                 self.lbl_top.setText('游戏结束，农民胜！')
+            if host_win:
+                sound_file = 'MusicEx_Win.mp3'
+            else:
+                sound_file = 'MusicEx_Lose.mp3'
+            self.mediaplayer.stop()
+            self.play_sound(sound_file)
             # 将玩家2和3的牌展示出来
             for i in range(1, 3):
                 self.cards_areas[i].diplay_num = True
@@ -426,15 +438,28 @@ class DouDiZhu(QMainWindow):
         self.user_acted = 3
         self.play_cycle()
 
-    def play_sound(self):
-        url = os.path.join('sound', '1000.mp3')
+    def play_music(self):
+        background_musics = ['Welcome', 'Normal', 'Normal2', 'Exciting']
         self.mediaplayer = QMediaPlayer()
         self.playlist = QMediaPlaylist()
-        self.playlist.addMedia(QMediaContent(QUrl.fromLocalFile(os.path.abspath(url))))
+        for music in background_musics:
+            url = os.path.join('sound', 'MusicEx_'+music+'.mp3')
+            self.playlist.addMedia(QMediaContent(QUrl.fromLocalFile(os.path.abspath(url))))
         self.playlist.setCurrentIndex(0)
         self.playlist.setPlaybackMode(QMediaPlaylist.CurrentItemInLoop)
         self.mediaplayer.setPlaylist(self.playlist)
         self.mediaplayer.play()
+
+    def change_music(self, index):
+        self.mediaplayer.pause()
+        self.playlist.setCurrentIndex(index)
+        self.mediaplayer.play()
+
+    def play_sound(self, file):
+        url = os.path.join('sound', file)
+        self.tmp_player = QMediaPlayer()
+        self.tmp_player.setMedia(QMediaContent(QUrl.fromLocalFile(os.path.abspath(url))))
+        self.tmp_player.play()
 
 
 # 底部横向的扑克排列，display_only代表不能点击，cards为牌的数字
