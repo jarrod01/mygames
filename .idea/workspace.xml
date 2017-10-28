@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="57d99694-1819-4c18-a88d-bfcab721a9c3" name="Default" comment="set log level to warning">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doudizhu_layout.xlsx" afterPath="$PROJECT_DIR$/doudizhu_layout.xlsx" />
+    <list default="true" id="57d99694-1819-4c18-a88d-bfcab721a9c3" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data.db" afterPath="$PROJECT_DIR$/data.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doudizhu_gui.py" afterPath="$PROJECT_DIR$/doudizhu_gui.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/login.py" afterPath="$PROJECT_DIR$/login.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,25 +16,40 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/mygames$example_mouse_pressevent.coverage" NAME="example_mouse_pressevent Coverage Results" MODIFIED="1504439473415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/mygames$doudizhu_gui.coverage" NAME="doudizhu_gui Coverage Results" MODIFIED="1509192299379" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/mygames$doudizhu_gui.coverage" NAME="doudizhu_gui Coverage Results" MODIFIED="1509209490851" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/mygames$doudizhu.coverage" NAME="doudizhu Coverage Results" MODIFIED="1505318065597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/mygames$example_layout.coverage" NAME="example_layout Coverage Results" MODIFIED="1504531174068" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/mygames$process_excel.coverage" NAME="process_excel Coverage Results" MODIFIED="1504707830321" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/mygames$example_tetris.coverage" NAME="example_tetris Coverage Results" MODIFIED="1504363597358" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/mygames$guess_number.coverage" NAME="guess_number Coverage Results" MODIFIED="1504713260755" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/mygames$login.coverage" NAME="login Coverage Results" MODIFIED="1504531887601" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/mygames$login.coverage" NAME="login Coverage Results" MODIFIED="1509205466882" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/mygames$symbol.coverage" NAME="symbol Coverage Results" MODIFIED="1504874137184" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/mygames$doudizhu_gui__1_.coverage" NAME="doudizhu_gui Coverage Results" MODIFIED="1504456097962" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="login.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/login.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="737">
+              <caret line="158" column="32" lean-forward="false" selection-start-line="158" selection-start-column="32" selection-end-line="158" selection-end-column="32" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+                <marker date="1509205525587" expanded="true" signature="5862:5896" ph="select key f... users" />
+                <marker date="1509205525587" expanded="true" signature="6162:6211" ph="insert into users... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="guess_number.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/guess_number.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2486">
-              <caret line="192" column="16" lean-forward="false" selection-start-line="192" selection-start-column="16" selection-end-line="192" selection-end-column="16" />
+            <state relative-caret-position="771">
+              <caret line="212" column="16" lean-forward="false" selection-start-line="186" selection-start-column="0" selection-end-line="212" selection-end-column="16" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
+                <element signature="e#167#5579#0" expanded="false" />
                 <marker date="1508668523000" expanded="true" signature="6821:6860" ph="select * fro... number_guess" />
                 <marker date="1508668523000" expanded="true" signature="7356:7433" ph="insert into number_guess... " />
                 <marker date="1508668523000" expanded="true" signature="7497:7563" ph="update numbe... " />
@@ -45,7 +61,7 @@
       <file leaf-file-name="doudizhu.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/doudizhu.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7935">
+            <state relative-caret-position="772">
               <caret line="1112" column="26" lean-forward="false" selection-start-line="1112" selection-start-column="26" selection-end-line="1112" selection-end-column="26" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
@@ -65,13 +81,24 @@
       <file leaf-file-name="doudizhu_gui.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/doudizhu_gui.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="391" column="44" lean-forward="true" selection-start-line="391" selection-start-column="44" selection-end-line="391" selection-end-column="44" />
+            <state relative-caret-position="379">
+              <caret line="433" column="40" lean-forward="true" selection-start-line="433" selection-start-column="40" selection-end-line="433" selection-end-column="40" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
-                <element signature="e#14913#14917#0" expanded="false" />
-                <element signature="e#27089#27841#0" expanded="false" />
+                <marker date="1509209489399" expanded="true" signature="29787:29822" ph="select * fro... number_guess" />
+                <marker date="1509209489399" expanded="true" signature="30216:30277" ph="insert into number_guess... " />
+                <marker date="1509209489399" expanded="true" signature="30409:30456" ph="update numbe... " />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test_media.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test_media.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -127,13 +154,14 @@
         <option value="$PROJECT_DIR$/doudizhu_gui_old.py" />
         <option value="$PROJECT_DIR$/example_mouse_pressevent.py" />
         <option value="$PROJECT_DIR$/example_layout.py" />
-        <option value="$PROJECT_DIR$/login.py" />
         <option value="$PROJECT_DIR$/process_excel.py" />
-        <option value="$PROJECT_DIR$/guess_number.py" />
         <option value="$PROJECT_DIR$/symbol.py" />
         <option value="$PROJECT_DIR$/todo" />
         <option value="$PROJECT_DIR$/doudizhu.py" />
         <option value="$PROJECT_DIR$/log" />
+        <option value="$PROJECT_DIR$/guess_number.py" />
+        <option value="$PROJECT_DIR$/login.py" />
+        <option value="$PROJECT_DIR$/test_media.py" />
         <option value="$PROJECT_DIR$/doudizhu_gui.py" />
       </list>
     </option>
@@ -145,8 +173,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1230" />
-    <option name="y" value="25" />
+    <option name="x" value="1245" />
+    <option name="y" value="24" />
     <option name="width" value="1315" />
     <option name="height" value="1408" />
   </component>
@@ -260,7 +288,7 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
-    <configuration name="process_excel" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="login" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -273,7 +301,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="mygames" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/process_excel.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/login.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -299,17 +327,17 @@
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.doudizhu" />
       <item index="1" class="java.lang.String" itemvalue="Python.doudizhu_gui" />
-      <item index="2" class="java.lang.String" itemvalue="Python.process_excel" />
-      <item index="3" class="java.lang.String" itemvalue="Python.guess_number" />
-      <item index="4" class="java.lang.String" itemvalue="Python.symbol" />
+      <item index="2" class="java.lang.String" itemvalue="Python.guess_number" />
+      <item index="3" class="java.lang.String" itemvalue="Python.symbol" />
+      <item index="4" class="java.lang.String" itemvalue="Python.login" />
     </list>
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Python.doudizhu_gui" />
-        <item index="1" class="java.lang.String" itemvalue="Python.doudizhu" />
-        <item index="2" class="java.lang.String" itemvalue="Python.symbol" />
-        <item index="3" class="java.lang.String" itemvalue="Python.guess_number" />
-        <item index="4" class="java.lang.String" itemvalue="Python.process_excel" />
+        <item index="1" class="java.lang.String" itemvalue="Python.login" />
+        <item index="2" class="java.lang.String" itemvalue="Python.doudizhu" />
+        <item index="3" class="java.lang.String" itemvalue="Python.symbol" />
+        <item index="4" class="java.lang.String" itemvalue="Python.guess_number" />
       </list>
     </recent_temporary>
   </component>
@@ -401,7 +429,14 @@
       <option name="project" value="LOCAL" />
       <updated>1505319083988</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="change outcard arrange to horizenal">
+      <created>1509192694029</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1509192694029</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TodoView" selected-index="1">
@@ -414,19 +449,19 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1230" y="25" width="1315" height="1408" extended-state="0" />
+    <frame x="1245" y="24" width="1315" height="1408" extended-state="0" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23723488" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32735425" sideWeight="0.5087848" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18771331" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972136" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28517964" sideWeight="0.49121523" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32945737" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28449613" sideWeight="0.49121523" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32868218" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32868218" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3978328" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3976744" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -448,7 +483,8 @@
     <MESSAGE value="finally can run well" />
     <MESSAGE value="fix strategy little bug" />
     <MESSAGE value="set log level to warning" />
-    <option name="LAST_COMMIT_MESSAGE" value="set log level to warning" />
+    <MESSAGE value="change outcard arrange to horizenal" />
+    <option name="LAST_COMMIT_MESSAGE" value="change outcard arrange to horizenal" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -466,27 +502,18 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="55" />
+      <option name="time" value="58" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/login.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2175">
-          <caret line="148" column="38" lean-forward="false" selection-start-line="148" selection-start-column="38" selection-end-line="148" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/guess_number.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1335">
           <caret line="93" column="8" lean-forward="false" selection-start-line="93" selection-start-column="8" selection-end-line="93" selection-end-column="8" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#167#5579#0" expanded="false" />
             <marker date="1508668523000" expanded="true" signature="6821:6860" ph="select * fro... number_guess" />
             <marker date="1508668523000" expanded="true" signature="7356:7433" ph="insert into number_guess... " />
             <marker date="1508668523000" expanded="true" signature="7497:7563" ph="update numbe... " />
@@ -500,8 +527,9 @@
           <caret line="3" column="8" lean-forward="false" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
-            <element signature="e#14913#14917#0" expanded="false" />
-            <element signature="e#27089#27841#0" expanded="false" />
+            <marker date="1509209489399" expanded="true" signature="29787:29822" ph="select * fro... number_guess" />
+            <marker date="1509209489399" expanded="true" signature="30216:30277" ph="insert into number_guess... " />
+            <marker date="1509209489399" expanded="true" signature="30409:30456" ph="update numbe... " />
           </folding>
         </state>
       </provider>
@@ -549,6 +577,8 @@
           <caret line="148" column="38" lean-forward="true" selection-start-line="148" selection-start-column="38" selection-end-line="148" selection-end-column="38" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
+            <marker date="1509205525587" expanded="true" signature="5862:5896" ph="select key f... users" />
+            <marker date="1509205525587" expanded="true" signature="6162:6211" ph="insert into users... " />
           </folding>
         </state>
       </provider>
@@ -559,6 +589,7 @@
           <caret line="93" column="8" lean-forward="false" selection-start-line="93" selection-start-column="8" selection-end-line="93" selection-end-column="8" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#167#5579#0" expanded="false" />
             <marker date="1508668523000" expanded="true" signature="6821:6860" ph="select * fro... number_guess" />
             <marker date="1508668523000" expanded="true" signature="7356:7433" ph="insert into number_guess... " />
             <marker date="1508668523000" expanded="true" signature="7497:7563" ph="update numbe... " />
@@ -609,8 +640,9 @@
           <caret line="32" column="26" lean-forward="true" selection-start-line="32" selection-start-column="26" selection-end-line="32" selection-end-column="26" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
-            <element signature="e#14913#14917#0" expanded="false" />
-            <element signature="e#27089#27841#0" expanded="false" />
+            <marker date="1509209489399" expanded="true" signature="29787:29822" ph="select * fro... number_guess" />
+            <marker date="1509209489399" expanded="true" signature="30216:30277" ph="insert into number_guess... " />
+            <marker date="1509209489399" expanded="true" signature="30409:30456" ph="update numbe... " />
           </folding>
         </state>
       </provider>
@@ -621,6 +653,8 @@
           <caret line="143" column="32" lean-forward="false" selection-start-line="143" selection-start-column="32" selection-end-line="143" selection-end-column="32" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
+            <marker date="1509205525587" expanded="true" signature="5862:5896" ph="select key f... users" />
+            <marker date="1509205525587" expanded="true" signature="6162:6211" ph="insert into users... " />
           </folding>
         </state>
       </provider>
@@ -631,6 +665,7 @@
           <caret line="77" column="21" lean-forward="false" selection-start-line="77" selection-start-column="21" selection-end-line="77" selection-end-column="21" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#167#5579#0" expanded="false" />
             <marker date="1508668523000" expanded="true" signature="6821:6860" ph="select * fro... number_guess" />
             <marker date="1508668523000" expanded="true" signature="7356:7433" ph="insert into number_guess... " />
             <marker date="1508668523000" expanded="true" signature="7497:7563" ph="update numbe... " />
@@ -674,8 +709,9 @@
           <caret line="88" column="27" lean-forward="true" selection-start-line="88" selection-start-column="27" selection-end-line="88" selection-end-column="27" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
-            <element signature="e#14913#14917#0" expanded="false" />
-            <element signature="e#27089#27841#0" expanded="false" />
+            <marker date="1509209489399" expanded="true" signature="29787:29822" ph="select * fro... number_guess" />
+            <marker date="1509209489399" expanded="true" signature="30216:30277" ph="insert into number_guess... " />
+            <marker date="1509209489399" expanded="true" signature="30409:30456" ph="update numbe... " />
           </folding>
         </state>
       </provider>
@@ -686,6 +722,8 @@
           <caret line="143" column="32" lean-forward="false" selection-start-line="143" selection-start-column="32" selection-end-line="143" selection-end-column="32" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
+            <marker date="1509205525587" expanded="true" signature="5862:5896" ph="select key f... users" />
+            <marker date="1509205525587" expanded="true" signature="6162:6211" ph="insert into users... " />
           </folding>
         </state>
       </provider>
@@ -696,6 +734,7 @@
           <caret line="77" column="21" lean-forward="true" selection-start-line="77" selection-start-column="21" selection-end-line="77" selection-end-column="21" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#167#5579#0" expanded="false" />
             <marker date="1508668523000" expanded="true" signature="6821:6860" ph="select * fro... number_guess" />
             <marker date="1508668523000" expanded="true" signature="7356:7433" ph="insert into number_guess... " />
             <marker date="1508668523000" expanded="true" signature="7497:7563" ph="update numbe... " />
@@ -727,8 +766,9 @@
           <caret line="84" column="12" lean-forward="false" selection-start-line="84" selection-start-column="12" selection-end-line="84" selection-end-column="12" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
-            <element signature="e#14913#14917#0" expanded="false" />
-            <element signature="e#27089#27841#0" expanded="false" />
+            <marker date="1509209489399" expanded="true" signature="29787:29822" ph="select * fro... number_guess" />
+            <marker date="1509209489399" expanded="true" signature="30216:30277" ph="insert into number_guess... " />
+            <marker date="1509209489399" expanded="true" signature="30409:30456" ph="update numbe... " />
           </folding>
         </state>
       </provider>
@@ -751,6 +791,8 @@
           <caret line="23" column="46" lean-forward="false" selection-start-line="23" selection-start-column="46" selection-end-line="23" selection-end-column="46" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
+            <marker date="1509205525587" expanded="true" signature="5862:5896" ph="select key f... users" />
+            <marker date="1509205525587" expanded="true" signature="6162:6211" ph="insert into users... " />
           </folding>
         </state>
       </provider>
@@ -761,6 +803,7 @@
           <caret line="6" column="31" lean-forward="false" selection-start-line="6" selection-start-column="31" selection-end-line="6" selection-end-column="31" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#167#5579#0" expanded="false" />
             <marker date="1508668523000" expanded="true" signature="6821:6860" ph="select * fro... number_guess" />
             <marker date="1508668523000" expanded="true" signature="7356:7433" ph="insert into number_guess... " />
             <marker date="1508668523000" expanded="true" signature="7497:7563" ph="update numbe... " />
@@ -792,6 +835,8 @@
           <caret line="23" column="46" lean-forward="false" selection-start-line="23" selection-start-column="46" selection-end-line="23" selection-end-column="46" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
+            <marker date="1509205525587" expanded="true" signature="5862:5896" ph="select key f... users" />
+            <marker date="1509205525587" expanded="true" signature="6162:6211" ph="insert into users... " />
           </folding>
         </state>
       </provider>
@@ -802,6 +847,7 @@
           <caret line="6" column="31" lean-forward="true" selection-start-line="6" selection-start-column="31" selection-end-line="6" selection-end-column="31" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#167#5579#0" expanded="false" />
             <marker date="1508668523000" expanded="true" signature="6821:6860" ph="select * fro... number_guess" />
             <marker date="1508668523000" expanded="true" signature="7356:7433" ph="insert into number_guess... " />
             <marker date="1508668523000" expanded="true" signature="7497:7563" ph="update numbe... " />
@@ -865,16 +911,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/process_excel.py" />
-    <entry file="file://$PROJECT_DIR$/login.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1350">
-          <caret line="90" column="0" lean-forward="false" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/symbol.py" />
     <entry file="file://$PROJECT_DIR$/pics/pukeimage/4/1.jpg">
       <provider selected="true" editor-type-id="images">
@@ -886,24 +922,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
           <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/doudizhu.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7935">
-          <caret line="1112" column="26" lean-forward="false" selection-start-line="1112" selection-start-column="26" selection-end-line="1112" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <element signature="e#101#860#0" expanded="false" />
-            <element signature="e#894#10887#0" expanded="false" />
-            <element signature="e#10932#15362#0" expanded="false" />
-            <element signature="e#23260#23729#0" expanded="false" />
-            <element signature="e#24052#24792#0" expanded="false" />
-            <element signature="e#24836#24973#0" expanded="false" />
-            <element signature="e#33464#33713#0" expanded="false" />
-            <element signature="e#36638#43988#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -929,10 +947,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/guess_number.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2486">
-          <caret line="192" column="16" lean-forward="false" selection-start-line="192" selection-start-column="16" selection-end-line="192" selection-end-column="16" />
+        <state relative-caret-position="771">
+          <caret line="212" column="16" lean-forward="false" selection-start-line="186" selection-start-column="0" selection-end-line="212" selection-end-column="16" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#167#5579#0" expanded="false" />
             <marker date="1508668523000" expanded="true" signature="6821:6860" ph="select * fro... number_guess" />
             <marker date="1508668523000" expanded="true" signature="7356:7433" ph="insert into number_guess... " />
             <marker date="1508668523000" expanded="true" signature="7497:7563" ph="update numbe... " />
@@ -940,14 +959,53 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/doudizhu.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="772">
+          <caret line="1112" column="26" lean-forward="false" selection-start-line="1112" selection-start-column="26" selection-end-line="1112" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+            <element signature="e#101#860#0" expanded="false" />
+            <element signature="e#894#10887#0" expanded="false" />
+            <element signature="e#10932#15362#0" expanded="false" />
+            <element signature="e#23260#23729#0" expanded="false" />
+            <element signature="e#24052#24792#0" expanded="false" />
+            <element signature="e#24836#24973#0" expanded="false" />
+            <element signature="e#33464#33713#0" expanded="false" />
+            <element signature="e#36638#43988#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/login.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="737">
+          <caret line="158" column="32" lean-forward="false" selection-start-line="158" selection-start-column="32" selection-end-line="158" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+            <marker date="1509205525587" expanded="true" signature="5862:5896" ph="select key f... users" />
+            <marker date="1509205525587" expanded="true" signature="6162:6211" ph="insert into users... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_media.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/doudizhu_gui.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="391" column="44" lean-forward="true" selection-start-line="391" selection-start-column="44" selection-end-line="391" selection-end-column="44" />
+        <state relative-caret-position="379">
+          <caret line="433" column="40" lean-forward="true" selection-start-line="433" selection-start-column="40" selection-end-line="433" selection-end-column="40" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
-            <element signature="e#14913#14917#0" expanded="false" />
-            <element signature="e#27089#27841#0" expanded="false" />
+            <marker date="1509209489399" expanded="true" signature="29787:29822" ph="select * fro... number_guess" />
+            <marker date="1509209489399" expanded="true" signature="30216:30277" ph="insert into number_guess... " />
+            <marker date="1509209489399" expanded="true" signature="30409:30456" ph="update numbe... " />
           </folding>
         </state>
       </provider>

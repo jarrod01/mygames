@@ -1,9 +1,10 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
+from PyQt5.QtMultimedia import *
 from random import randint
 from doudizhu import poker_distribute, pattern_spot, cards_validate, strategy, compare, ai_jiaofen, rearrange, print_cards
-import json, socket, threading, struct, sys, os, doudizhu, logging
+import json, socket, threading, struct, sys, os, doudizhu, logging, sqlite3
 
 logger_name = 'doudizhu_log'
 logger = logging.getLogger(logger_name)
@@ -17,7 +18,7 @@ logger.addHandler(fh)
 
 
 class DouDiZhu(QMainWindow):
-    def __init__(self, n, sockets=(0, 0, 0), host='jarrod'):
+    def __init__(self, n=1, sockets=(0, 0, 0), host='jarrod'):
         super().__init__()
         self.cards = [[], [], [], []]
         self.out_cards = [[], [], []]
@@ -35,7 +36,6 @@ class DouDiZhu(QMainWindow):
         self.winner = '地主'
         self.user_acted = 0  # 0 等待叫分， 1 已经叫分，  2 等待出牌， 3 已出牌
         self.replay = False
-        self.out_card_height = 0
         self.InitUI()
 
     def InitUI(self):
@@ -52,7 +52,7 @@ class DouDiZhu(QMainWindow):
         recordsAction = QAction('&Records', self)
         recordsAction.setShortcut('Ctrl+R')
         recordsAction.setStatusTip('Show your records')
-        recordsAction.triggered.connect(self.jiaofen)
+        recordsAction.triggered.connect(self.show_records)
 
         fileMenu = menubar.addMenu('&File')
         fileMenu.addAction(recordsAction)
@@ -61,6 +61,10 @@ class DouDiZhu(QMainWindow):
         playAction = QAction('Play', self)
         playAction.triggered.connect(self.initiate_game)
         menubar.addAction(playAction)
+
+        musicAction = QAction('Music', self)
+        musicAction.triggered.connect(self.play_sound)
+        menubar.addAction(musicAction)
 
         hostAction = QAction('Create Room', self)
         hostAction.setStatusTip('Create a room and tell other players the room number!')
@@ -313,13 +317,22 @@ class DouDiZhu(QMainWindow):
             if self.player_now == self.dizhu:
                 self.winner = '地主'
                 self.lbl_top.setText('游戏结束，地主胜！')
+                if self.player_now == 0:
+                    host_win = True
+                else:
+                    host_win = False
             else:
+                if self.player_now == self.dizhu:
+                    host_win = False
+                else:
+                    host_win = True
                 self.winner = '农民'
                 self.lbl_top.setText('游戏结束，农民胜！')
             # 将玩家2和3的牌展示出来
             for i in range(1, 3):
                 self.cards_areas[i].diplay_num = True
                 self.cards_areas[i].update()
+            write_db(self.names[0], host_win)
             replay_window = ReplayWindow(self.winner)
             replay_window.exec_()
             self.replay = replay_window.get_replay()
@@ -352,7 +365,8 @@ class DouDiZhu(QMainWindow):
         self.player_now = (self.player_now + 1) % 3
 
     def show_records(self):
-        pass
+        records_window = RecordsWindow(self.names[0])
+        records_window.exec_()
 
     def creat_room(self):
         pass
@@ -411,6 +425,16 @@ class DouDiZhu(QMainWindow):
         self.reset_timer()
         self.user_acted = 3
         self.play_cycle()
+
+    def play_sound(self):
+        url = os.path.join('sound', '1000.mp3')
+        self.mediaplayer = QMediaPlayer()
+        self.playlist = QMediaPlaylist()
+        self.playlist.addMedia(QMediaContent(QUrl.fromLocalFile(os.path.abspath(url))))
+        self.playlist.setCurrentIndex(0)
+        self.playlist.setPlaybackMode(QMediaPlaylist.CurrentItemInLoop)
+        self.mediaplayer.setPlaylist(self.playlist)
+        self.mediaplayer.play()
 
 
 # 底部横向的扑克排列，display_only代表不能点击，cards为牌的数字
@@ -697,6 +721,29 @@ class ReplayWindow(QDialog):
         return self.replay
 
 
+class RecordsWindow(QDialog):
+    def __init__(self, name, parent=None):
+        super().__init__()
+        self.name = name
+        self.InitUI()
+
+    def InitUI(self):
+        records = read_db(self.name)
+        if not records:
+            text = 'No records of ' + self.name + ' found!'
+        else:
+            text = self.name + '\'s records:\n total times: ' + str(records['total']) + '\n' + 'winning times: ' +\
+                   str(records['win']) + '\n' + 'winning rate: ' + str(100*records['win']/records['total']) + '%'
+        lbl_records = QLabel(text)
+        ok_button = QPushButton('OK')
+        ok_button.clicked.connect(self.close)
+        vbox = QVBoxLayout()
+        vbox.addWidget(lbl_records)
+        vbox.addWidget(ok_button)
+        self.setLayout(vbox)
+        self.setWindowTitle('Records')
+        self.show()
+
 def find_card_image(num):
     n =int(num / 10)
     color = num % 10
@@ -716,6 +763,34 @@ def find_card_image(num):
         return os.path.join(puke_path, os.path.join(str(color), str(n-11)+'.jpg'))
     else:
         return os.path.join(puke_path, os.path.join(str(color), str(n+2) + '.jpg'))
+
+def read_db(name):
+    conn = sqlite3.connect('data.db')
+    cursor = conn.cursor()
+    cursor.execute('select * from doudizhu where name=?', (name, ))
+    result = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    if not result:
+        return {}
+    records = {}
+    records['total'] = result[0][2]
+    records['win'] = result[0][3]
+    return records
+
+def write_db(name, win):
+    conn = sqlite3.connect('data.db')
+    cursor = conn.cursor()
+    records_now = read_db(name)
+    if not records_now:
+        cursor.execute('insert into doudizhu (name, total, win) VALUES ("%s", %d, %d)'%(name, 1, win))
+    else:
+        total = records_now['total'] + 1
+        win = records_now['win'] + win
+        cursor.execute('update doudizhu set total=?, win=? where name=?', (total, win, name, ))
+    conn.commit()
+    cursor.close()
+    conn.close()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

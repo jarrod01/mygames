@@ -1,7 +1,7 @@
 import sys, sqlite3
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore, QtGui
-import guess_number
+import guess_number, doudizhu_gui
 
 
 class LogIn(QMainWindow):
@@ -53,7 +53,7 @@ class LogIn(QMainWindow):
         name = self.qle_name.text()
         pwd = self.qle_pwd.text()
         if button == 'Skip':
-            self.close()
+            self.choose_game()
         else:
             if name == '':
                 self.statusBar().showMessage('Please enter your name')
@@ -63,7 +63,7 @@ class LogIn(QMainWindow):
                     pwd = md5(pwd)
                     if key == pwd:
                         self.loged_user = name
-                        self.close()
+                        self.choose_game()
                     else:
                         self.statusBar().showMessage('wrong password, please try again!')
                 else:
@@ -83,17 +83,21 @@ class LogIn(QMainWindow):
                             write_db(name, pwd)
                             self.statusBar().showMessage('please remember your password!')
                             self.loged_user = name
-                            self.close()
-        app_pick = ChooseGame(self.loged_user)
-        app_pick.show()
-        # self.gn = guess_number.GuessNumber(name)
-        # self.gn.show()
+                            self.choose_game()
+
 
     def center(self):
         screen = QDesktopWidget().screenGeometry()
         size = self.geometry()
         self.move((screen.width()-size.width())/2,
             (screen.height()-size.height())/2)
+
+    def choose_game(self):
+        self.close()
+        self.app_pick = ChooseGame(self.loged_user)
+        self.app_pick.show()
+        # self.gn = guess_number.GuessNumber(name)
+        # self.gn.show()
 
     # def closeEvent(self, a0: QtGui.QCloseEvent):
         # loged_user = self.loged_user
@@ -149,6 +153,10 @@ class PicButton(QAbstractButton):
             self.parent_widget.close()
             self.gn = guess_number.GuessNumber(self.parent_widget.name)
             self.gn.show()
+        elif self.app == 'doudizhu':
+            self.parent_widget.close()
+            self.doudizhu = doudizhu_gui.DouDiZhu(host=self.parent_widget.name)
+            self.doudizhu.show()
 
 
 def read_db(name):
