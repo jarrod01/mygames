@@ -222,6 +222,7 @@ class DouDiZhu(QMainWindow):
         self.after_jiaofen()
 
     def add_time(self):
+        print(self.time_count)
         self.lcd_time.display(int(self.time_count/1000))
         self.time_count -= 1
         self.fake_ai_think_time -= 1
@@ -279,14 +280,16 @@ class DouDiZhu(QMainWindow):
                 else:
                     self.fake_ai_think_time = 1000
             self.reset_timer()
-            self.timer.start(1)   # 之后就交给add_time函数去判断应该是等待用户出牌还是ai出牌
-            print('timer started' + str(self.replay))
+            print('timer reset')
+            self.timer.start(1)  # 之后就交给add_time函数去判断应该是等待用户出牌还是ai出牌
+            print(self.timer.isActive())
             self.update_cards_area(self.out_cards_areas[self.player_now], [])
             break
 
     def reset_timer(self):
-        if self.timer.isActive():
-            self.timer.stop()
+        # 这段代码不知道为什么会引起重玩的时候第一把不能开始计时
+        # if self.timer.isActive():
+        #     self.timer.stop()
         self.lcd_time.display(0)
         self.time_count = 20000
         logger.info(str(self.player_now+1)+',时间重设为20秒')
@@ -388,7 +391,19 @@ class DouDiZhu(QMainWindow):
         records_window.exec_()
 
     def creat_room(self):
-        pass
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # s2用于获取IP地址
+        s2 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s2.connect(('114.114.114.114', 80))
+        addr, port = s2.getsockname()
+        s2.close()
+        num_ip = socket.ntohl(struct.unpack("I", socket.inet_aton(addr))[0])
+        text = ('开房成功，您的房间号是：' + str(num_ip) + ', 快把房间号告诉玩伴吧')
+        info_window = InfosWindow(text, parent=self)
+        info_window.exec_()
+        s.bind((addr, 9125))
+        s.listen(2)
+        self.lbl_top.setText('Waiting for connection...')
 
     def join_room(self):
         pass
@@ -842,6 +857,24 @@ class RecordsWindow(QDialog):
             text = self.name + '\的记录：\n 游戏总次数: ' + str(records['total']) + '次\n' + '胜局次数：' +\
                    str(records['win']) + '次\n' + '获胜率：' + str(100*records['win']/records['total']) + '%\n' + \
                    '总积分：' + str(records['jifen']) + '分\n\n\n' + '积分规则：胜了则赢取叫分的分值，输了则减掉叫分的分值\n地主加倍'
+        lbl_records = QLabel(text)
+        ok_button = QPushButton('OK')
+        ok_button.clicked.connect(self.close)
+        vbox = QVBoxLayout()
+        vbox.addWidget(lbl_records)
+        vbox.addWidget(ok_button)
+        self.setLayout(vbox)
+        self.setWindowTitle('Records')
+        self.show()
+
+class InfosWindow(QDialog):
+    def __init__(self, text, parent=None):
+        super().__init__()
+        self.text = text
+        self.InitUI()
+
+    def InitUI(self):
+        text = self.text
         lbl_records = QLabel(text)
         ok_button = QPushButton('OK')
         ok_button.clicked.connect(self.close)
