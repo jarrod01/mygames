@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="57d99694-1819-4c18-a88d-bfcab721a9c3" name="Default" comment="changed layout">
+    <list default="true" id="57d99694-1819-4c18-a88d-bfcab721a9c3" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data.db" afterPath="$PROJECT_DIR$/data.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doudizhu_layout.xlsx" afterPath="$PROJECT_DIR$/doudizhu_layout.xlsx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -458,7 +458,14 @@
       <option name="project" value="LOCAL" />
       <updated>1509287618500</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="changed layout">
+      <created>1509289578962</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1509289578962</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TodoView" selected-index="1">
@@ -511,7 +518,8 @@
     <MESSAGE value="sound finished&#10;changed data storage" />
     <MESSAGE value="small fix" />
     <MESSAGE value="fixed 重玩不能开始计时的bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed 重玩不能开始计时的bug" />
+    <MESSAGE value="changed layout" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed layout" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
