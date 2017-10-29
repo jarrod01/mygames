@@ -129,16 +129,17 @@ class DouDiZhu(QMainWindow):
         grid.addWidget(self.cards_area_two, 3, 12, 9, 1)
 
         # 下方从左往右依次为玩家1的头像、名称、牌展示区，三个按钮：出牌、提示、跳过
-        grid.addWidget(self.avatars[0], 12, 0, 2, 1)
-        grid.addWidget(self.lbl_names[0], 14, 0, 1, 1)
-        grid.addWidget(self.cards_area_one, 12, 1, 3, 11)
-        grid.addWidget(send_button, 12, 12, 1, 1)
-        grid.addWidget(tips_button, 13, 12, 1, 1)
-        grid.addWidget(skip_button, 14, 12, 1, 1)
+        grid.addWidget(self.avatars[0], 13, 0, 2, 1)
+        grid.addWidget(self.lbl_names[0], 15, 0, 1, 1)
+        grid.addWidget(self.cards_area_one, 12, 1, 4, 11)
+        grid.addWidget(send_button, 13, 12, 1, 1)
+        grid.addWidget(tips_button, 14, 12, 1, 1)
+        grid.addWidget(skip_button, 15, 12, 1, 1)
         self.widget.setLayout(grid)
 
         self.setCentralWidget(self.widget)
-        self.setGeometry(0, 0, screen.width(), screen.height())
+        self.setFixedSize(1000, 800)
+        self.setWindowFlags(Qt.WindowMinimizeButtonHint)
         self.setWindowTitle('Doudizhu --' + self.names[0])
         self.setWindowIcon(QIcon(os.path.join('pics', 'doudizhu.png')))
         self.show()
@@ -750,7 +751,10 @@ class PukeThree(QFrame):
             card_width = int(pix_card.width() * card_height / pix_card.height())
 
             #计算一下一行可以放多少张牌,((n-1)/4+1)*width = self.width, n=4*self.width/width-3
-            cards_per_row = int(4 * self.width() / card_width) - 3
+            if card_width == 0:
+                cards_per_row == 1
+            else:
+                cards_per_row = int(4 * self.width() / card_width) - 3
             # 其实这时候已经放不下一张牌了，就强制放一张好了
             if cards_per_row == 0:
                 cards_per_row = 1
