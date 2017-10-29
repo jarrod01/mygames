@@ -8,7 +8,7 @@ import json, socket, threading, struct, sys, os, doudizhu, logging, sqlite3
 
 logger_name = 'doudizhu_log'
 logger = logging.getLogger(logger_name)
-logger.setLevel(logging.WARNING)
+logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 fh = logging.FileHandler('log')
 fh.setLevel(logging.WARNING)
@@ -36,6 +36,7 @@ class DouDiZhu(QMainWindow):
         self.winner = '地主'
         self.user_acted = 0  # 0 等待叫分， 1 已经叫分，  2 等待出牌， 3 已出牌
         self.replay = False
+        self.gender = ['Man', 'Woman', 'Man']
         self.InitUI()
 
     def InitUI(self):
@@ -62,9 +63,9 @@ class DouDiZhu(QMainWindow):
         playAction.triggered.connect(self.initiate_game)
         menubar.addAction(playAction)
 
-        musicAction = QAction('Music', self)
-        musicAction.triggered.connect(self.play_sound)
-        menubar.addAction(musicAction)
+        tuoguanAction = QAction('Tuoguan', self)
+        tuoguanAction.triggered.connect(self.tuoguan)
+        menubar.addAction(tuoguanAction)
 
         hostAction = QAction('Create Room', self)
         hostAction.setStatusTip('Create a room and tell other players the room number!')
@@ -104,15 +105,15 @@ class DouDiZhu(QMainWindow):
         self.card_area_dipai = PukeOne(self.cards[3], True, 4, self)
         self.cards_areas = [self.cards_area_one, self.cards_area_two, self.cards_area_three, self.card_area_dipai]
         self.out_cards_areas = [self.out_cards_area_one, self.out_cards_area_two, self.out_cards_area_three]
-        send_button = QPushButton('send')
+        send_button = QPushButton('出牌')
         send_button.clicked.connect(self.send_cards)
-        tips_button = QPushButton('tips')
+        tips_button = QPushButton('提示')
         tips_button.clicked.connect(self.tips)
-        skip_button = QPushButton('skip')
+        skip_button = QPushButton('跳过')
         skip_button.clicked.connect(self.skip)
         grid = QGridLayout()
         # 顶部放置玩家2、3的名称头像，提示条，横向、纵向均划为15份
-        grid.addWidget(self.lbl_names[2], 0, 0, 1, 2)
+        grid.addWidget(self.lbl_names[2], 0, 0, 1, 1)
         grid.addWidget(self.avatars[2], 1, 0, 2, 1)
         grid.addWidget(self.lbl_top, 0, 2, 1, 4)
         grid.addWidget(self.lcd_time, 0, 12, 1, 1)
@@ -123,13 +124,13 @@ class DouDiZhu(QMainWindow):
         grid.addWidget(self.cards_area_three, 3, 0, 9, 2)
         grid.addWidget(self.out_cards_area_three, 3, 2, 6, 5)
         grid.addWidget(self.card_area_dipai, 0, 6, 3, 3)
-        grid.addWidget(self.out_cards_area_two, 3, 9, 6, 5)
+        grid.addWidget(self.out_cards_area_two, 3, 8, 6, 5)
         grid.addWidget(self.out_cards_area_one, 9, 2, 3, 11)
         grid.addWidget(self.cards_area_two, 3, 13, 9, 2)
 
         # 下方从左往右依次为玩家1的头像、名称、牌展示区，三个按钮：出牌、提示、跳过
-        grid.addWidget(self.avatars[0], 12, 0, 2, 2)
-        grid.addWidget(self.lbl_names[0], 14, 0, 1, 2)
+        grid.addWidget(self.avatars[0], 12, 0, 2, 1)
+        grid.addWidget(self.lbl_names[0], 14, 0, 1, 1)
         grid.addWidget(self.cards_area_one, 12, 2, 3, 11)
         grid.addWidget(send_button, 12, 14, 1, 1)
         grid.addWidget(tips_button, 13, 14, 1, 1)
@@ -177,6 +178,8 @@ class DouDiZhu(QMainWindow):
                 self.avatars[i].setPixmap(nongmin_avatar)
 
     def initiate_game(self):
+        if self.person[0] == 0:
+            self.tuoguan()
         index = randint(1,2)
         self.change_music(index)
         ai_names = ['Harry', 'Ron', 'Hermione', 'Albus', 'Severus', 'Minerva', 'Hagrid', 'Lupin', 'Moody', 'Horace',
@@ -185,8 +188,8 @@ class DouDiZhu(QMainWindow):
         self.finished = False
         self.pass_me = [1, 1, 1]
         self.can_pass = False
-        self.time_count = 5000
-        self.fake_ai_think_time = 100000000
+        self.time_count = 10000
+        self.fake_ai_think_time = 100000000  #将这个时间设置一个很大的超过倒计时的值
         self.user_acted = 0  # 0 等待叫分， 1 已经叫分，  2 等待出牌， 3 已出牌
         self.cards_areas[3].can_display_dipai = False
         for i in range(3):
@@ -262,6 +265,7 @@ class DouDiZhu(QMainWindow):
                 self.last_result = {'validate': True, 'nums': [0], 'result': 'null'}
                 self.can_pass = False
                 self.pass_me[self.player_now] = 0
+                logger.info(str(self.player_now+1) + '不能跳过')
             else:
                 self.can_pass = True
 
@@ -271,11 +275,12 @@ class DouDiZhu(QMainWindow):
             else:
                 out_nums = strategy(self.cards[self.player_now], self.last_result)
                 if out_nums:
-                    self.fake_ai_think_time = randint(100, 2000)
+                    self.fake_ai_think_time = randint(1000, 2000)
                 else:
-                    self.fake_ai_think_time = 200
+                    self.fake_ai_think_time = 1000
             self.reset_timer()
-            self.timer.start(1)
+            self.timer.start(1)   # 之后就交给add_time函数去判断应该是等待用户出牌还是ai出牌
+            print('timer started' + str(self.replay))
             self.update_cards_area(self.out_cards_areas[self.player_now], [])
             break
 
@@ -284,6 +289,7 @@ class DouDiZhu(QMainWindow):
             self.timer.stop()
         self.lcd_time.display(0)
         self.time_count = 20000
+        logger.info(str(self.player_now+1)+',时间重设为20秒')
 
     def ai_already_acted(self, real_ai=True):
         self.pass_me[self.player_now] = 0
@@ -323,18 +329,18 @@ class DouDiZhu(QMainWindow):
             if self.player_now == self.dizhu:
                 self.winner = '地主'
                 self.lbl_top.setText('游戏结束，地主胜！')
-                if self.player_now == 0:
-                    host_win = True
+                if self.dizhu == 0:
+                    jifen = self.scores[0] * 2
                 else:
-                    host_win = False
+                    jifen = -self.scores[0]
             else:
-                if self.player_now == self.dizhu:
-                    host_win = False
+                if self.dizhu == 0:
+                    jifen = -self.scores[0] * 2
                 else:
-                    host_win = True
+                    jifen = self.scores[0]
                 self.winner = '农民'
                 self.lbl_top.setText('游戏结束，农民胜！')
-            if host_win:
+            if jifen>0:
                 sound_file = 'MusicEx_Win.mp3'
             else:
                 sound_file = 'MusicEx_Lose.mp3'
@@ -344,15 +350,15 @@ class DouDiZhu(QMainWindow):
             for i in range(1, 3):
                 self.cards_areas[i].diplay_num = True
                 self.cards_areas[i].update()
-            write_db(self.names[0], host_win)
-            replay_window = ReplayWindow(self.winner)
+            write_db(self.names[0], jifen)
+            replay_window = ReplayWindow(self.winner, self)
             replay_window.exec_()
             self.replay = replay_window.get_replay()
             replay_window.destroy()
             if self.replay:
                 self.initiate_game()
             else:
-                self.close()
+                pass
             return True
         else:
             return False
@@ -377,7 +383,7 @@ class DouDiZhu(QMainWindow):
         self.player_now = (self.player_now + 1) % 3
 
     def show_records(self):
-        records_window = RecordsWindow(self.names[0])
+        records_window = RecordsWindow(self.names[0], self)
         records_window.exec_()
 
     def creat_room(self):
@@ -390,6 +396,60 @@ class DouDiZhu(QMainWindow):
     def update_cards_area(self, cards_area, cards):
         cards_area.cards = cards
         cards_area.update()
+        if cards_area in self.out_cards_areas and cards:
+            file = self.decide_sounds(cards)
+            if 'zha' in file:
+                self.play_sound_2('Special_Bomb.mp3')
+                self.change_music(3)
+            elif 'feiji' in file:
+                self.play_sound_2('Special_plane.mp3')
+            self.play_sound(file)
+        elif cards_area in self.cards_areas and len(cards)<3 and cards:
+            file = self.gender[self.player_now] + '_baojing' + str(len(cards)) + '.mp3'
+            self.play_sound_2(file)
+
+    def decide_sounds(self, cards):
+        gender = self.gender[self.player_now]
+        if cards[0] == 161:
+            i = randint(1, 3)
+            file = gender + '_buyao' + str(i) + '.mp3'
+        else:
+            validate_result = cards_validate(cards)
+            result = validate_result['result']
+            num = validate_result['nums'][0]
+            if not validate_result['validate']:
+                file = 'Special_Escape.mp3'
+            else:
+                if num >= 14:
+                    pass
+                elif num >= 12:
+                    num -= 11
+                else:
+                    num += 2
+                related_files = {'ones': gender + '_' + str(num) + '.mp3',
+                         'twos': gender + '_dui' + str(num) + '.mp3',
+                         'two_jokers': gender + '_wangzha.mp3',
+                         'threes': gender + '_tuple' + str(num) + '.mp3',
+                         'fours': gender + '_zhadan.mp3',
+                         'three_ones': gender + '_sandaiyi.mp3',
+                         'three_twos': gender + '_sandaiyidui.mp3',
+                         'straights': gender + '_shunzi.mp3',
+                         'straights_double': gender + '_liandui.mp3',
+                         'straights_triple': gender + '_feiji.mp3',
+                         'four_two_ones': gender + '_sidaier.mp3',
+                         'four_two_twos': gender + '_sidailiangdui.mp3',
+                         'st_with_ones': gender + '_feiji.mp3',
+                         'st_with_twos': gender + '_feiji.mp3',
+                         'st3_with_ones': gender + '_feiji.mp3',
+                         'st3_with_twos': gender + '_feiji.mp3',
+                         }
+                file = related_files[result]
+                # 如果这时候能跳过而不跳过，那么就是比别人大了
+                if self.can_pass and result not in ['ones', 'twos', 'threes'] and 'zha' not in file:
+                    i = randint(1, 3)
+                    file = gender + '_dani' + str(i) + '.mp3'
+        return file
+
 
     # 发送按钮
     def send_cards(self):
@@ -438,6 +498,18 @@ class DouDiZhu(QMainWindow):
         self.user_acted = 3
         self.play_cycle()
 
+    def tuoguan(self):
+        if self.person[0] == 1:
+            self.lbl_names[0].setText(self.names[0] + '(托管中……)')
+            self.person[0] = 0
+            if self.player_now == 0 and self.user_acted == 2:
+                self.ai_already_acted()
+                self.reset_timer()
+                self.play_cycle()
+        else:
+            self.lbl_names[0].setText(self.names[0])
+            self.person[0] = 1
+
     def play_music(self):
         background_musics = ['Welcome', 'Normal', 'Normal2', 'Exciting']
         self.mediaplayer = QMediaPlayer()
@@ -460,6 +532,12 @@ class DouDiZhu(QMainWindow):
         self.tmp_player = QMediaPlayer()
         self.tmp_player.setMedia(QMediaContent(QUrl.fromLocalFile(os.path.abspath(url))))
         self.tmp_player.play()
+
+    def play_sound_2(self, file):
+        url = os.path.join('sound', file)
+        self.tmp_player_2 = QMediaPlayer()
+        self.tmp_player_2.setMedia(QMediaContent(QUrl.fromLocalFile(os.path.abspath(url))))
+        self.tmp_player_2.play()
 
 
 # 底部横向的扑克排列，display_only代表不能点击，cards为牌的数字
@@ -653,7 +731,7 @@ class PukeThree(QFrame):
             pix_card = QPixmap(card_file)
 
             # 横向的两张牌之间重叠3/4，纵向的牌重叠stack_ratio
-            card_height = self.parent.get_default_out_card_height()
+            card_height = self.parent.get_default_out_card_height()  #让2号和3号玩家出牌的高度和1号玩家一致
             card_width = int(pix_card.width() * card_height / pix_card.height())
 
             #计算一下一行可以放多少张牌,((n-1)/4+1)*width = self.width, n=4*self.width/width-3
@@ -757,8 +835,9 @@ class RecordsWindow(QDialog):
         if not records:
             text = 'No records of ' + self.name + ' found!'
         else:
-            text = self.name + '\'s records:\n total times: ' + str(records['total']) + '\n' + 'winning times: ' +\
-                   str(records['win']) + '\n' + 'winning rate: ' + str(100*records['win']/records['total']) + '%'
+            text = self.name + '\的记录：\n 游戏总次数: ' + str(records['total']) + '次\n' + '胜局次数：' +\
+                   str(records['win']) + '次\n' + '获胜率：' + str(100*records['win']/records['total']) + '%\n' + \
+                   '总积分：' + str(records['jifen']) + '分\n\n\n' + '积分规则：胜了则赢取叫分的分值，输了则减掉叫分的分值\n地主加倍'
         lbl_records = QLabel(text)
         ok_button = QPushButton('OK')
         ok_button.clicked.connect(self.close)
@@ -801,18 +880,24 @@ def read_db(name):
     records = {}
     records['total'] = result[0][2]
     records['win'] = result[0][3]
+    records['jifen'] = result[0][4]
     return records
 
-def write_db(name, win):
+def write_db(name, jifen):
     conn = sqlite3.connect('data.db')
     cursor = conn.cursor()
     records_now = read_db(name)
+    if jifen:
+        win = 1
+    else:
+        win = 0
     if not records_now:
-        cursor.execute('insert into doudizhu (name, total, win) VALUES ("%s", %d, %d)'%(name, 1, win))
+        cursor.execute('insert into doudizhu (name, total, win, jifen) VALUES ("%s", %d, %d, %d)'%(name, 1, win, jifen))
     else:
         total = records_now['total'] + 1
-        win = records_now['win'] + win
-        cursor.execute('update doudizhu set total=?, win=? where name=?', (total, win, name, ))
+        win += records_now['win']
+        jifen += records_now['jifen']
+        cursor.execute('update doudizhu set total=?, win=?, jifen=? where name=?', (total, win, jifen, name, ))
     conn.commit()
     cursor.close()
     conn.close()
