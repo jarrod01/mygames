@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="57d99694-1819-4c18-a88d-bfcab721a9c3" name="Default" comment="">
+    <list default="true" id="57d99694-1819-4c18-a88d-bfcab721a9c3" name="Default" comment="changed layout">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data.db" afterPath="$PROJECT_DIR$/data.db" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doudizhu_layout.xlsx" afterPath="$PROJECT_DIR$/doudizhu_layout.xlsx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doudizhu_gui.py" afterPath="$PROJECT_DIR$/doudizhu_gui.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -13,7 +16,7 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/mygames$example_mouse_pressevent.coverage" NAME="example_mouse_pressevent Coverage Results" MODIFIED="1504439473415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/mygames$doudizhu_gui.coverage" NAME="doudizhu_gui Coverage Results" MODIFIED="1509284363764" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/mygames$doudizhu_gui.coverage" NAME="doudizhu_gui Coverage Results" MODIFIED="1509289464660" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/mygames$doudizhu.coverage" NAME="doudizhu Coverage Results" MODIFIED="1509257193589" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/mygames$example_layout.coverage" NAME="example_layout Coverage Results" MODIFIED="1504531174068" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/mygames$process_excel.coverage" NAME="process_excel Coverage Results" MODIFIED="1504707830321" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -32,8 +35,8 @@
               <caret line="158" column="32" lean-forward="false" selection-start-line="158" selection-start-column="32" selection-end-line="158" selection-end-column="32" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
-                <marker date="1509205525587" expanded="true" signature="5862:5896" ph="select key f... users" />
-                <marker date="1509205525587" expanded="true" signature="6162:6211" ph="insert into users... " />
+                <marker date="1509284927405" expanded="true" signature="5862:5896" ph="select key f... users" />
+                <marker date="1509284927405" expanded="true" signature="6162:6211" ph="insert into users... " />
               </folding>
             </state>
           </provider>
@@ -42,18 +45,18 @@
       <file leaf-file-name="doudizhu_gui.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/doudizhu_gui.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="292">
-              <caret line="832" column="0" lean-forward="true" selection-start-line="832" selection-start-column="0" selection-end-line="832" selection-end-column="0" />
+            <state relative-caret-position="366">
+              <caret line="191" column="62" lean-forward="false" selection-start-line="191" selection-start-column="62" selection-end-line="191" selection-end-column="62" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
-                <element signature="e#30967#31653#0" expanded="false" />
-                <element signature="e#31689#32669#0" expanded="false" />
-                <element signature="e#33699#34451#0" expanded="false" />
-                <element signature="e#34476#34850#0" expanded="false" />
-                <element signature="e#34883#35465#0" expanded="false" />
-                <marker date="1509284767200" expanded="true" signature="34557:34592" ph="select * fro... number_guess" />
-                <marker date="1509284767200" expanded="true" signature="35080:35152" ph="insert into number_guess... " />
-                <marker date="1509284767200" expanded="true" signature="35324:35380" ph="update numbe... " />
+                <element signature="e#31656#32342#0" expanded="false" />
+                <element signature="e#32378#33358#0" expanded="false" />
+                <element signature="e#34888#35640#0" expanded="false" />
+                <element signature="e#35665#36039#0" expanded="false" />
+                <element signature="e#36072#36654#0" expanded="false" />
+                <marker date="1509289300493" expanded="true" signature="35746:35781" ph="select * fro... number_guess" />
+                <marker date="1509289300493" expanded="true" signature="36269:36341" ph="insert into number_guess... " />
+                <marker date="1509289300493" expanded="true" signature="36513:36569" ph="update numbe... " />
               </folding>
             </state>
           </provider>
@@ -69,22 +72,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="log" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/log">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="doudizhu.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/doudizhu.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-374">
-              <caret line="1" column="13" lean-forward="false" selection-start-line="1" selection-start-column="13" selection-end-line="1" selection-end-column="44" />
+            <state relative-caret-position="490">
+              <caret line="1048" column="43" lean-forward="false" selection-start-line="1048" selection-start-column="43" selection-end-line="1048" selection-end-column="43" />
               <folding>
+                <element signature="e#0#26#0" expanded="true" />
                 <element signature="e#101#860#0" expanded="false" />
                 <element signature="e#894#10887#0" expanded="false" />
                 <element signature="e#24836#24973#0" expanded="false" />
@@ -123,10 +117,10 @@
       <find>timer</find>
       <find>timer.sta</find>
       <find>finished</find>
-      <find>finished_</find>
       <find>tuoguan</find>
       <find>self.time_count</find>
       <find>reset_timer</find>
+      <find>finished_</find>
       <find>add_time</find>
     </findStrings>
   </component>
@@ -159,8 +153,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1208" />
-    <option name="y" value="82" />
+    <option name="x" value="93" />
+    <option name="y" value="100" />
     <option name="width" value="1227" />
     <option name="height" value="1297" />
   </component>
@@ -457,7 +451,14 @@
       <option name="project" value="LOCAL" />
       <updated>1509284776236</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="fixed 重玩不能开始计时的bug">
+      <created>1509287618500</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1509287618500</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TodoView" selected-index="1">
@@ -470,16 +471,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1208" y="82" width="1227" height="1297" extended-state="0" />
-    <editor active="true" />
+    <frame x="93" y="100" width="1227" height="1297" extended-state="0" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2793249" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32735425" sideWeight="0.5087848" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28329092" sideWeight="0.49121523" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28329092" sideWeight="0.49121523" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18771331" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32909244" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32909244" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32868218" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3976744" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -510,7 +510,8 @@
     <MESSAGE value="initial sound" />
     <MESSAGE value="sound finished&#10;changed data storage" />
     <MESSAGE value="small fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="small fix" />
+    <MESSAGE value="fixed 重玩不能开始计时的bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed 重玩不能开始计时的bug" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -546,14 +547,14 @@
           <caret line="3" column="8" lean-forward="false" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
-            <element signature="e#30967#31653#0" expanded="false" />
-            <element signature="e#31689#32669#0" expanded="false" />
-            <element signature="e#33699#34451#0" expanded="false" />
-            <element signature="e#34476#34850#0" expanded="false" />
-            <element signature="e#34883#35465#0" expanded="false" />
-            <marker date="1509284767200" expanded="true" signature="34557:34592" ph="select * fro... number_guess" />
-            <marker date="1509284767200" expanded="true" signature="35080:35152" ph="insert into number_guess... " />
-            <marker date="1509284767200" expanded="true" signature="35324:35380" ph="update numbe... " />
+            <element signature="e#31656#32342#0" expanded="false" />
+            <element signature="e#32378#33358#0" expanded="false" />
+            <element signature="e#34888#35640#0" expanded="false" />
+            <element signature="e#35665#36039#0" expanded="false" />
+            <element signature="e#36072#36654#0" expanded="false" />
+            <marker date="1509289300493" expanded="true" signature="35746:35781" ph="select * fro... number_guess" />
+            <marker date="1509289300493" expanded="true" signature="36269:36341" ph="insert into number_guess... " />
+            <marker date="1509289300493" expanded="true" signature="36513:36569" ph="update numbe... " />
           </folding>
         </state>
       </provider>
@@ -582,6 +583,7 @@
         <state relative-caret-position="570">
           <caret line="646" column="38" lean-forward="false" selection-start-line="652" selection-start-column="4" selection-end-line="653" selection-end-column="47" />
           <folding>
+            <element signature="e#0#26#0" expanded="true" />
             <element signature="e#101#860#0" expanded="false" />
             <element signature="e#894#10887#0" expanded="false" />
             <element signature="e#24836#24973#0" expanded="false" />
@@ -597,8 +599,8 @@
           <caret line="148" column="38" lean-forward="true" selection-start-line="148" selection-start-column="38" selection-end-line="148" selection-end-column="38" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
-            <marker date="1509205525587" expanded="true" signature="5862:5896" ph="select key f... users" />
-            <marker date="1509205525587" expanded="true" signature="6162:6211" ph="insert into users... " />
+            <marker date="1509284927405" expanded="true" signature="5862:5896" ph="select key f... users" />
+            <marker date="1509284927405" expanded="true" signature="6162:6211" ph="insert into users... " />
           </folding>
         </state>
       </provider>
@@ -615,6 +617,7 @@
         <state relative-caret-position="660">
           <caret line="652" column="4" lean-forward="true" selection-start-line="652" selection-start-column="4" selection-end-line="653" selection-end-column="47" />
           <folding>
+            <element signature="e#0#26#0" expanded="true" />
             <element signature="e#101#860#0" expanded="false" />
             <element signature="e#894#10887#0" expanded="false" />
             <element signature="e#24836#24973#0" expanded="false" />
@@ -649,14 +652,14 @@
           <caret line="32" column="26" lean-forward="true" selection-start-line="32" selection-start-column="26" selection-end-line="32" selection-end-column="26" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
-            <element signature="e#30967#31653#0" expanded="false" />
-            <element signature="e#31689#32669#0" expanded="false" />
-            <element signature="e#33699#34451#0" expanded="false" />
-            <element signature="e#34476#34850#0" expanded="false" />
-            <element signature="e#34883#35465#0" expanded="false" />
-            <marker date="1509284767200" expanded="true" signature="34557:34592" ph="select * fro... number_guess" />
-            <marker date="1509284767200" expanded="true" signature="35080:35152" ph="insert into number_guess... " />
-            <marker date="1509284767200" expanded="true" signature="35324:35380" ph="update numbe... " />
+            <element signature="e#31656#32342#0" expanded="false" />
+            <element signature="e#32378#33358#0" expanded="false" />
+            <element signature="e#34888#35640#0" expanded="false" />
+            <element signature="e#35665#36039#0" expanded="false" />
+            <element signature="e#36072#36654#0" expanded="false" />
+            <marker date="1509289300493" expanded="true" signature="35746:35781" ph="select * fro... number_guess" />
+            <marker date="1509289300493" expanded="true" signature="36269:36341" ph="insert into number_guess... " />
+            <marker date="1509289300493" expanded="true" signature="36513:36569" ph="update numbe... " />
           </folding>
         </state>
       </provider>
@@ -667,8 +670,8 @@
           <caret line="143" column="32" lean-forward="false" selection-start-line="143" selection-start-column="32" selection-end-line="143" selection-end-column="32" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
-            <marker date="1509205525587" expanded="true" signature="5862:5896" ph="select key f... users" />
-            <marker date="1509205525587" expanded="true" signature="6162:6211" ph="insert into users... " />
+            <marker date="1509284927405" expanded="true" signature="5862:5896" ph="select key f... users" />
+            <marker date="1509284927405" expanded="true" signature="6162:6211" ph="insert into users... " />
           </folding>
         </state>
       </provider>
@@ -685,6 +688,7 @@
         <state relative-caret-position="195">
           <caret line="14" column="37" lean-forward="false" selection-start-line="14" selection-start-column="37" selection-end-line="14" selection-end-column="37" />
           <folding>
+            <element signature="e#0#26#0" expanded="true" />
             <element signature="e#101#860#0" expanded="false" />
             <element signature="e#894#10887#0" expanded="false" />
             <element signature="e#24836#24973#0" expanded="false" />
@@ -712,14 +716,14 @@
           <caret line="88" column="27" lean-forward="true" selection-start-line="88" selection-start-column="27" selection-end-line="88" selection-end-column="27" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
-            <element signature="e#30967#31653#0" expanded="false" />
-            <element signature="e#31689#32669#0" expanded="false" />
-            <element signature="e#33699#34451#0" expanded="false" />
-            <element signature="e#34476#34850#0" expanded="false" />
-            <element signature="e#34883#35465#0" expanded="false" />
-            <marker date="1509284767200" expanded="true" signature="34557:34592" ph="select * fro... number_guess" />
-            <marker date="1509284767200" expanded="true" signature="35080:35152" ph="insert into number_guess... " />
-            <marker date="1509284767200" expanded="true" signature="35324:35380" ph="update numbe... " />
+            <element signature="e#31656#32342#0" expanded="false" />
+            <element signature="e#32378#33358#0" expanded="false" />
+            <element signature="e#34888#35640#0" expanded="false" />
+            <element signature="e#35665#36039#0" expanded="false" />
+            <element signature="e#36072#36654#0" expanded="false" />
+            <marker date="1509289300493" expanded="true" signature="35746:35781" ph="select * fro... number_guess" />
+            <marker date="1509289300493" expanded="true" signature="36269:36341" ph="insert into number_guess... " />
+            <marker date="1509289300493" expanded="true" signature="36513:36569" ph="update numbe... " />
           </folding>
         </state>
       </provider>
@@ -730,8 +734,8 @@
           <caret line="143" column="32" lean-forward="false" selection-start-line="143" selection-start-column="32" selection-end-line="143" selection-end-column="32" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
-            <marker date="1509205525587" expanded="true" signature="5862:5896" ph="select key f... users" />
-            <marker date="1509205525587" expanded="true" signature="6162:6211" ph="insert into users... " />
+            <marker date="1509284927405" expanded="true" signature="5862:5896" ph="select key f... users" />
+            <marker date="1509284927405" expanded="true" signature="6162:6211" ph="insert into users... " />
           </folding>
         </state>
       </provider>
@@ -748,6 +752,7 @@
         <state relative-caret-position="195">
           <caret line="14" column="37" lean-forward="true" selection-start-line="14" selection-start-column="37" selection-end-line="14" selection-end-column="37" />
           <folding>
+            <element signature="e#0#26#0" expanded="true" />
             <element signature="e#101#860#0" expanded="false" />
             <element signature="e#894#10887#0" expanded="false" />
             <element signature="e#24836#24973#0" expanded="false" />
@@ -763,14 +768,14 @@
           <caret line="84" column="12" lean-forward="false" selection-start-line="84" selection-start-column="12" selection-end-line="84" selection-end-column="12" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
-            <element signature="e#30967#31653#0" expanded="false" />
-            <element signature="e#31689#32669#0" expanded="false" />
-            <element signature="e#33699#34451#0" expanded="false" />
-            <element signature="e#34476#34850#0" expanded="false" />
-            <element signature="e#34883#35465#0" expanded="false" />
-            <marker date="1509284767200" expanded="true" signature="34557:34592" ph="select * fro... number_guess" />
-            <marker date="1509284767200" expanded="true" signature="35080:35152" ph="insert into number_guess... " />
-            <marker date="1509284767200" expanded="true" signature="35324:35380" ph="update numbe... " />
+            <element signature="e#31656#32342#0" expanded="false" />
+            <element signature="e#32378#33358#0" expanded="false" />
+            <element signature="e#34888#35640#0" expanded="false" />
+            <element signature="e#35665#36039#0" expanded="false" />
+            <element signature="e#36072#36654#0" expanded="false" />
+            <marker date="1509289300493" expanded="true" signature="35746:35781" ph="select * fro... number_guess" />
+            <marker date="1509289300493" expanded="true" signature="36269:36341" ph="insert into number_guess... " />
+            <marker date="1509289300493" expanded="true" signature="36513:36569" ph="update numbe... " />
           </folding>
         </state>
       </provider>
@@ -793,8 +798,8 @@
           <caret line="23" column="46" lean-forward="false" selection-start-line="23" selection-start-column="46" selection-end-line="23" selection-end-column="46" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
-            <marker date="1509205525587" expanded="true" signature="5862:5896" ph="select key f... users" />
-            <marker date="1509205525587" expanded="true" signature="6162:6211" ph="insert into users... " />
+            <marker date="1509284927405" expanded="true" signature="5862:5896" ph="select key f... users" />
+            <marker date="1509284927405" expanded="true" signature="6162:6211" ph="insert into users... " />
           </folding>
         </state>
       </provider>
@@ -811,6 +816,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="e#0#26#0" expanded="true" />
             <element signature="e#101#860#0" expanded="false" />
             <element signature="e#894#10887#0" expanded="false" />
             <element signature="e#24836#24973#0" expanded="false" />
@@ -826,8 +832,8 @@
           <caret line="23" column="46" lean-forward="false" selection-start-line="23" selection-start-column="46" selection-end-line="23" selection-end-column="46" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
-            <marker date="1509205525587" expanded="true" signature="5862:5896" ph="select key f... users" />
-            <marker date="1509205525587" expanded="true" signature="6162:6211" ph="insert into users... " />
+            <marker date="1509284927405" expanded="true" signature="5862:5896" ph="select key f... users" />
+            <marker date="1509284927405" expanded="true" signature="6162:6211" ph="insert into users... " />
           </folding>
         </state>
       </provider>
@@ -923,8 +929,8 @@
           <caret line="158" column="32" lean-forward="false" selection-start-line="158" selection-start-column="32" selection-end-line="158" selection-end-column="32" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
-            <marker date="1509205525587" expanded="true" signature="5862:5896" ph="select key f... users" />
-            <marker date="1509205525587" expanded="true" signature="6162:6211" ph="insert into users... " />
+            <marker date="1509284927405" expanded="true" signature="5862:5896" ph="select key f... users" />
+            <marker date="1509284927405" expanded="true" signature="6162:6211" ph="insert into users... " />
           </folding>
         </state>
       </provider>
@@ -952,9 +958,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/doudizhu.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-374">
-          <caret line="1" column="13" lean-forward="false" selection-start-line="1" selection-start-column="13" selection-end-line="1" selection-end-column="44" />
+        <state relative-caret-position="490">
+          <caret line="1048" column="43" lean-forward="false" selection-start-line="1048" selection-start-column="43" selection-end-line="1048" selection-end-column="43" />
           <folding>
+            <element signature="e#0#26#0" expanded="true" />
             <element signature="e#101#860#0" expanded="false" />
             <element signature="e#894#10887#0" expanded="false" />
             <element signature="e#24836#24973#0" expanded="false" />
@@ -966,18 +973,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/doudizhu_gui.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="292">
-          <caret line="832" column="0" lean-forward="true" selection-start-line="832" selection-start-column="0" selection-end-line="832" selection-end-column="0" />
+        <state relative-caret-position="366">
+          <caret line="191" column="62" lean-forward="false" selection-start-line="191" selection-start-column="62" selection-end-line="191" selection-end-column="62" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
-            <element signature="e#30967#31653#0" expanded="false" />
-            <element signature="e#31689#32669#0" expanded="false" />
-            <element signature="e#33699#34451#0" expanded="false" />
-            <element signature="e#34476#34850#0" expanded="false" />
-            <element signature="e#34883#35465#0" expanded="false" />
-            <marker date="1509284767200" expanded="true" signature="34557:34592" ph="select * fro... number_guess" />
-            <marker date="1509284767200" expanded="true" signature="35080:35152" ph="insert into number_guess... " />
-            <marker date="1509284767200" expanded="true" signature="35324:35380" ph="update numbe... " />
+            <element signature="e#31656#32342#0" expanded="false" />
+            <element signature="e#32378#33358#0" expanded="false" />
+            <element signature="e#34888#35640#0" expanded="false" />
+            <element signature="e#35665#36039#0" expanded="false" />
+            <element signature="e#36072#36654#0" expanded="false" />
+            <marker date="1509289300493" expanded="true" signature="35746:35781" ph="select * fro... number_guess" />
+            <marker date="1509289300493" expanded="true" signature="36269:36341" ph="insert into number_guess... " />
+            <marker date="1509289300493" expanded="true" signature="36513:36569" ph="update numbe... " />
           </folding>
         </state>
       </provider>

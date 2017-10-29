@@ -115,26 +115,26 @@ class DouDiZhu(QMainWindow):
         # 顶部放置玩家2、3的名称头像，提示条，横向、纵向均划为15份
         grid.addWidget(self.lbl_names[2], 0, 0, 1, 1)
         grid.addWidget(self.avatars[2], 1, 0, 2, 1)
-        grid.addWidget(self.lbl_top, 0, 2, 1, 4)
-        grid.addWidget(self.lcd_time, 0, 12, 1, 1)
-        grid.addWidget(self.lbl_names[1], 0, 14, 1, 1)
-        grid.addWidget(self.avatars[1], 1, 14, 2, 1)
+        grid.addWidget(self.lbl_top, 0, 1, 1, 4)
+        grid.addWidget(self.lcd_time, 0, 11, 1, 1)
+        grid.addWidget(self.lbl_names[1], 0, 12, 1, 1)
+        grid.addWidget(self.avatars[1], 1, 12, 2, 1)
 
         # 中间从左往右依次是玩家2的牌展示区，出牌区，底牌区，玩家3出牌区，玩家3牌展示区，中间下方为玩家1出牌区
-        grid.addWidget(self.cards_area_three, 3, 0, 9, 2)
-        grid.addWidget(self.out_cards_area_three, 3, 2, 6, 5)
-        grid.addWidget(self.card_area_dipai, 0, 6, 3, 3)
-        grid.addWidget(self.out_cards_area_two, 3, 8, 6, 5)
-        grid.addWidget(self.out_cards_area_one, 9, 2, 3, 11)
-        grid.addWidget(self.cards_area_two, 3, 13, 9, 2)
+        grid.addWidget(self.cards_area_three, 3, 0, 9, 1)
+        grid.addWidget(self.out_cards_area_three, 3, 1, 6, 5)
+        grid.addWidget(self.card_area_dipai, 0, 5, 2, 3)
+        grid.addWidget(self.out_cards_area_two, 3, 7, 6, 5)
+        grid.addWidget(self.out_cards_area_one, 9, 1, 3, 11)
+        grid.addWidget(self.cards_area_two, 3, 12, 9, 1)
 
         # 下方从左往右依次为玩家1的头像、名称、牌展示区，三个按钮：出牌、提示、跳过
         grid.addWidget(self.avatars[0], 12, 0, 2, 1)
         grid.addWidget(self.lbl_names[0], 14, 0, 1, 1)
-        grid.addWidget(self.cards_area_one, 12, 2, 3, 11)
-        grid.addWidget(send_button, 12, 14, 1, 1)
-        grid.addWidget(tips_button, 13, 14, 1, 1)
-        grid.addWidget(skip_button, 14, 14, 1, 1)
+        grid.addWidget(self.cards_area_one, 12, 1, 3, 11)
+        grid.addWidget(send_button, 12, 12, 1, 1)
+        grid.addWidget(tips_button, 13, 12, 1, 1)
+        grid.addWidget(skip_button, 14, 12, 1, 1)
         self.widget.setLayout(grid)
 
         self.setCentralWidget(self.widget)
@@ -152,8 +152,8 @@ class DouDiZhu(QMainWindow):
         avatar = QPixmap(pic)
         height = 0
         width = 0
-        max_width = 2 * self.width()/15
-        max_height = 2 * self.height()/15
+        max_width = 1 * self.width()/13
+        max_height = 1 * self.height()/13
         avatar_width = avatar.width()
         avatar_heigth = avatar.height()
         if max_width/max_height > avatar_width/avatar_heigth:
@@ -222,7 +222,6 @@ class DouDiZhu(QMainWindow):
         self.after_jiaofen()
 
     def add_time(self):
-        print(self.time_count)
         self.lcd_time.display(int(self.time_count/1000))
         self.time_count -= 1
         self.fake_ai_think_time -= 1
@@ -280,9 +279,7 @@ class DouDiZhu(QMainWindow):
                 else:
                     self.fake_ai_think_time = 1000
             self.reset_timer()
-            print('timer reset')
             self.timer.start(1)  # 之后就交给add_time函数去判断应该是等待用户出牌还是ai出牌
-            print(self.timer.isActive())
             self.update_cards_area(self.out_cards_areas[self.player_now], [])
             break
 
@@ -590,26 +587,26 @@ class PukeOne(QFrame):
             if self.display_only:   # 如果只是展示，牌的高度为模块的高度
                 # 底牌展示区高度放小一点,player=4代表底牌
                 if self.player == 4:
-                    card_width = int(pix_card.width() * (self.height() / 3) / pix_card.height())
-                    card_height = int(self.height()/3)
+                    card_height = int(self.height()*2/3)
+                    card_width = int(pix_card.width() * card_height / pix_card.height())
                 else:
-                    card_width = int(pix_card.width() * (self.height()) / pix_card.height())
                     card_height = int(self.height())
+                    card_width = int(pix_card.width() * card_height / pix_card.height())
                 cur_y = 0
             else:    # 因为需要点击，牌的高度为模块高度的2/3
-                card_width = int(pix_card.width() * (self.height() * 2 / 3) / pix_card.height())
                 card_height = int(self.height() * 2 / 3)
+                card_width = int(pix_card.width() * card_height / pix_card.height())
                 cur_y = int(self.height() / 3)
 
             pix_card = pix_card.scaledToHeight(card_height)
             # 两张牌之间重叠1/3，因此中间点牌占的总宽度就是2/3*w*n+1/3*w
-            # 判断重叠率是否能展示全，如果不能则增大重叠率，最大3/4
+            # 判断重叠率是否能展示全，如果不能则增大重叠率，最大5/6
             stack_ratio = 1/3
             all_cards_width = ((1-stack_ratio) * len(self.cards) + stack_ratio) *card_width
             while all_cards_width > self.width():
                 stack_ratio += 0.01
                 all_cards_width = ((1 - stack_ratio) * len(self.cards) + stack_ratio) * card_width
-                if stack_ratio > 3/4:
+                if stack_ratio > 5/6:
                     # 此处写如果重叠率到了3/4还不行的情况，应该折行，懒得写了
                     break
             cur_x = int((self.width() - all_cards_width) / 2 + i * card_width * (1-stack_ratio))
@@ -689,28 +686,30 @@ class PukeTwo(QFrame):
                 tranform.rotate(270)
             pix_card = QPixmap(card_file)
             pix_card = pix_card.transformed(tranform)
+            # 玩家2和玩家3的出牌区域也横向展示，已废弃
             if self.diplay_num:
-                card_height = int(pix_card.height() * (self.width() / 3) / pix_card.width())
                 card_width = int(self.width() / 3)
+                card_height = int(pix_card.height() * card_width / pix_card.width())
                 # 如果是玩家3，应该靠左展示
                 if self.player == 3:
                     cur_x = 0
                 elif self.player == 2:
                     cur_x = int(self.width() * 2 / 3)
             else:
-                card_height = int(pix_card.height() * (self.width()/2) / pix_card.width())
-                card_width = int(self.width()/2)
+                # 将存牌区和出牌区隔出1/6的空间
+                card_width = int(self.width()*5/6)
+                card_height = int(pix_card.height() * card_width / pix_card.width())
                 if self.player == 3:
                     cur_x = 0
                 elif self.player == 2:
-                    cur_x = int(self.width() / 2)
+                    cur_x = int(self.width()/6)
             # 两张牌之间重叠1/3，因此中间点牌占的总宽度就是2/3*h*n+1/3*h
             stack_ratio = 1 / 3
             all_cards_height = ((1 - stack_ratio) * len(self.cards) + stack_ratio) * card_height
             while all_cards_height > self.height():
                 stack_ratio += 0.01
                 all_cards_height = ((1 - stack_ratio) * len(self.cards) + stack_ratio) * card_height
-                if stack_ratio > 3 / 4:
+                if stack_ratio > 5 / 6:
                     # 此处写如果重叠率到了3/4还不行的情况，应该折行，懒得写了
                     break
             cur_y = int((self.height() - all_cards_height) / 2 + i * card_height*(1-stack_ratio))
@@ -752,7 +751,9 @@ class PukeThree(QFrame):
 
             #计算一下一行可以放多少张牌,((n-1)/4+1)*width = self.width, n=4*self.width/width-3
             cards_per_row = int(4 * self.width() / card_width) - 3
-
+            # 其实这时候已经放不下一张牌了，就强制放一张好了
+            if cards_per_row == 0:
+                cards_per_row = 1
             cur_x = (i % cards_per_row) * card_width / 4
             # 如果是2号玩家，应该靠右，画图起点在所有牌的
             if self.player == 2:
