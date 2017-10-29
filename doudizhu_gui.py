@@ -350,7 +350,8 @@ class DouDiZhu(QMainWindow):
             for i in range(1, 3):
                 self.cards_areas[i].diplay_num = True
                 self.cards_areas[i].update()
-            write_db(self.names[0], jifen)
+            if 'data.db' in os.listdir():
+                write_db(self.names[0], jifen)
             replay_window = ReplayWindow(self.winner, self)
             replay_window.exec_()
             self.replay = replay_window.get_replay()
@@ -831,7 +832,10 @@ class RecordsWindow(QDialog):
         self.InitUI()
 
     def InitUI(self):
-        records = read_db(self.name)
+        if 'data.db' in os.listdir():
+            records = read_db(self.name)
+        else:
+            records = {}
         if not records:
             text = 'No records of ' + self.name + ' found!'
         else:
