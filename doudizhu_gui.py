@@ -360,7 +360,7 @@ class DouDiZhu(QMainWindow):
             if self.replay:
                 self.initiate_game()
             else:
-                pass
+                self.close()
             return True
         else:
             return False

@@ -198,6 +198,8 @@ def test():
     print_number(numbers)
     print(result['score'])
 
+
+
 if __name__ == '__main__':
     # test()
     play()
