@@ -934,7 +934,7 @@ def write_db(name, jifen):
     else:
         win = 0
     if not records_now:
-        cursor.execute('insert into doudizhu (name, total, win, jifen) VALUES ("%s", %d, %d, %d)'%(name, 1, win, jifen))
+        cursor.execute('insert into doudizhu (name, total, win, jifen) VALUES (?, ?, ?, ?)', (name, 1, win, jifen))
     else:
         total = records_now['total'] + 1
         win += records_now['win']

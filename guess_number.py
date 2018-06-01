@@ -205,7 +205,7 @@ def write_db(name, level, steps, time, update_type='insert'):
     conn = sqlite3.connect('data.db')
     cursor = conn.cursor()
     if update_type == 'insert':
-        cursor.execute('insert into number_guess (name, level, steps, time) VALUES ("%s", %d, %d, %f)'%(name, level, steps, time))
+        cursor.execute('insert into number_guess (name, level, steps, time) VALUES (?, ?, ?, ?)',(name, level, steps, time, ))
     else:
         cursor.execute('update number_guess set steps=?, time=? where (name=? and level=?)', (steps, time, name, level, ))
     conn.commit()

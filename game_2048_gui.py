@@ -591,7 +591,7 @@ def write_db(level, score, name='jarrod', update_type='insert'):
     conn = sqlite3.connect('data.db')
     cursor = conn.cursor()
     if update_type == 'insert':
-        cursor.execute('insert into game_2048 (name, level, score) VALUES ("%s", %d, %d)'%(name, level, score))
+        cursor.execute('insert into game_2048 (name, level, score) VALUES (?, ?, ?)', (name, level, score))
     else:
         cursor.execute('update game_2048 set score=? where (name=? and level=?)', (score, name, level, ))
     conn.commit()
